@@ -147,9 +147,23 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-badge { margin-top: 60px; }
 @media (min-width: 992px) { .hero-badge { margin-top: 0; transform: translateY(80px); } }
 .badge-circle { position: relative; width: 180px; height: 180px; background: rgba(10,10,10,0.8); backdrop-filter: blur(5px); border-radius: 50%; display:flex; justify-content:center; align-items:center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);}
-.rotating-text { animation: rotate 20s linear infinite; transform-origin: center; transform-box: fill-box;}
-.rotating-text text { fill: #ccc; font-size: 11px; font-family: var(--font-sans); letter-spacing: 2.5px; text-transform: uppercase;}
-@keyframes rotate { 100% { transform: rotate(360deg); } }
+.rotating-text { 
+    animation: rotate 20s linear infinite; 
+    transform-origin: center; 
+    transform-box: fill-box;
+    will-change: transform;
+}
+.rotating-text text { 
+    fill: #ccc; 
+    font-size: 8px; /* Slightly smaller to prevent overlap */
+    font-family: var(--font-sans); 
+    letter-spacing: 2px; 
+    text-transform: uppercase;
+}
+@keyframes rotate { 
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); } 
+}
 .signature { position: absolute; font-family: 'Times New Roman', cursive; color: var(--white); font-size: 24px; transform: rotate(-5deg); opacity: 0.9;}
 
 /* About Section */
