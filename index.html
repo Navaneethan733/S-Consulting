@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Global Management Consulting</title>
+    <meta name="description" content="STACKLY Consulting - Delivering strategic advisory to optimize operations and drive sustainable business growth.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">STACKLY</div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html" class="active">HOMES </a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="contact-info desktop-only">
+                    <span class="label">Need help? Talk to Phone</span>
+                    <a href="tel:9876543210" class="phone">+91 9876543210</a>
+                </div>
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-icon desktop-only">Login<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                <button class="menu-toggle mobile-only" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+            
+        </div>
+        <!-- Mobile Nav Menu -->
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html" class="active">HOMES </a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="mobile-contact mt-8">
+                <p class="text-white mb-2">Need help? Talk to Phone</p>
+                <a href="tel:9876543210" class="phone text-cyan" style="color: #00c4cc">+91 9876543210</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section class="hero">
+            <div class="hero-bg" style="background-image: url('assets/images/hero_bg.png')"></div>
+            <div class="hero-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title" data-aos="fade-up">Global<br>Management<br>Consulting</h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Empowering Organizations with Actionable Strategies</p>
+                    <div class="hero-actions" data-aos="fade-up" data-aos-delay="200">
+                        <a href="404.html" class="btn btn-primary btn-icon">Start Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        <div class="social-links">
+                            <a href="404.html" class="social-icon">f</a>
+                            <a href="404.html" class="social-icon">X</a>
+                            <a href="404.html" class="social-icon">in</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-badge" data-aos="fade-left" data-aos-delay="400">
+                    <div class="badge-circle">
+                       <svg viewBox="0 0 100 100" width="160" height="160" class="rotating-text">
+                           <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+                           <text><textPath href="#circlePath" startOffset="0%">GLOBAL STRATEGY EXCELLENCE • OPERATIONS INSIGHT • </textPath></text>
+                       </svg>
+                       <div class="signature">Signature</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted By Section -->
+        <section class="trusted-by section-padding bg-light">
+            <div class="container text-center">
+                <p class="mb-8 font-heading" style="color:var(--text-muted); font-size: 14px; letter-spacing: 2px; text-transform: uppercase;">Trusted by innovative companies worldwide</p>
+                <div class="logo-carousel">
+                    <div class="brand-logo"><h4 style="font-size:24px; font-weight: 700; color:#444;">VERTEX</h4></div>
+                    <div class="brand-logo"><h4 style="font-size:24px; font-weight: 700; color:#444;">acme<span class="text-cyan">.</span></h4></div>
+                    <div class="brand-logo"><h4 style="font-size:24px; font-weight: 700; color:#444;">GLOBAL</h4></div>
+                    <div class="brand-logo"><h4 style="font-size:24px; font-weight: 400; color:#444;">Nexus<span style="font-weight:700;">Tech</span></h4></div>
+                    <div class="brand-logo"><h4 style="font-size:24px; font-weight: 700; color:#444;">QUANTUM</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about section-padding" style="position: relative; z-index: 5;">
+            <div class="container">
+                <h2 class="section-title text-left mb-8 max-w-lg" data-aos="fade-up">Delivering strategic advisory to optimize operations and drive sustainable business growth.</h2>
+                <div class="about-grid">
+                    <div class="about-images">
+                        <img src="assets/images/about_man.png" alt="Marketing Expert" class="img-1" data-aos="fade-right">
+                        <img src="assets/images/about_team.png" alt="Business Growth" class="img-2" data-aos="fade-up" data-aos-delay="200">
+                        <div class="abstract-line">
+                            <svg width="200" height="150" viewBox="0 0 200 150" fill="none" class="animated-path">
+                               <path d="M0 100 C 50 100, 100 50, 200 0" stroke="#f68b33" stroke-width="2" stroke-dasharray="5 5"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="about-content" data-aos="fade-left">
+                        <div class="experience-block">
+                            <span class="exp-number">10</span>
+                            <span class="exp-text">YEARS<br>EXPERIENCE</span>
+                        </div>
+                        <h3 class="about-subtitle">Established 2015-2025</h3>
+                        <p class="about-desc">Creating a business around a like CEO often involves developing a clear vision and leadership role to guide the overall strategy, operations, and growth.</p>
+                        <a href="404.html" class="read-more">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marquee Section -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span class="marquee-text outline">CORPORATE STRATEGY</span>
+                    <span class="marquee-star">✦</span>
+                    <span class="marquee-text">M&A ADVISORY</span>
+                    <span class="marquee-star">✦</span>
+                    <span class="marquee-text outline">OPERATIONS ENHANCEMENT</span>
+                    <span class="marquee-star">✦</span>
+                    <span class="marquee-text">DIGITAL TRANSFORMATION</span>
+                    <span class="marquee-star">✦</span>
+                    <!-- Duplicate for infinite scroll loop -->
+                    <span class="marquee-text outline" aria-hidden="true">CORPORATE STRATEGY</span>
+                    <span class="marquee-star" aria-hidden="true">✦</span>
+                    <span class="marquee-text" aria-hidden="true">M&A ADVISORY</span>
+                    <span class="marquee-star" aria-hidden="true">✦</span>
+                    <span class="marquee-text outline" aria-hidden="true">OPERATIONS ENHANCEMENT</span>
+                    <span class="marquee-star" aria-hidden="true">✦</span>
+                    <span class="marquee-text" aria-hidden="true">DIGITAL TRANSFORMATION</span>
+                    <span class="marquee-star" aria-hidden="true">✦</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services section-padding">
+            <div class="container">
+                <h2 class="section-title text-center mb-12" data-aos="fade-up">For Your Business</h2>
+                <div class="services-grid">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="img-wrapper">
+                            <img src="assets/images/service_1.png" alt="Fusion Corporate Services">
+                            <div class="arrow-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></div>
+                        </div>
+                        <div class="service-info">
+                            <span class="category"><span class="line"></span> Corporate</span>
+                            <h3 class="card-title">Corporate Restructuring</h3>
+                        </div>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="img-wrapper">
+                            <img src="assets/images/service_2.png" alt="Pinnacle Edge Consulting">
+                            <div class="arrow-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></div>
+                        </div>
+                        <div class="service-info">
+                            <span class="category"><span class="line"></span> Business</span>
+                            <h3 class="card-title">Mergers & Acquisitions</h3>
+                        </div>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="img-wrapper">
+                            <img src="assets/images/service_3.png" alt="Nexus Advisory Group">
+                            <div class="arrow-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></div>
+                        </div>
+                        <div class="service-info">
+                            <span class="category"><span class="line"></span> Advisory</span>
+                            <h3 class="card-title">Process Optimization</h3>
+                        </div>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="img-wrapper">
+                            <img src="assets/images/about_team.png" alt="Infinity Strategies">
+                            <!-- Note: reusing about_team image for 4th block -->
+                            <div class="arrow-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></div>
+                        </div>
+                        <div class="service-info">
+                            <span class="category"><span class="line"></span> Consulting</span>
+                            <h3 class="card-title">Change Management</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section class="methodology section-padding bg-light" id="process">
+            <div class="container">
+                <div class="section-top text-center mb-12">
+                    <span class="tag" data-aos="fade-up">Our Process</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Our Proven Methodology</h2>
+                    <p class="section-desc mx-auto max-w-lg" data-aos="fade-up" data-aos-delay="200" style="margin: 0 auto; color: var(--text-muted);">A structured, four-phase approach to uncovering opportunities, architecting solutions, and driving sustainable growth for your enterprise.</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="step-num">Phase 01</span>
+                            <h3 class="timeline-title">Discovery & Audit</h3>
+                            <p class="timeline-desc">We begin with a deep dive into your organization's current state. Through rigorous data analysis, stakeholder interviews, and operational audits, we identify core bottlenecks and growth levers.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="step-num">Phase 02</span>
+                            <h3 class="timeline-title">Strategy Architecture</h3>
+                            <p class="timeline-desc">Our experts design a tailored, actionable roadmap. We align organizational structure, financial models, and operational frameworks with your long-term business objectives.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="step-num">Phase 03</span>
+                            <h3 class="timeline-title">Agile Execution</h3>
+                            <p class="timeline-desc">We transition from blueprints to boots on the ground. Our consultants work alongside your teams to implement changes seamlessly, ensuring minimal disruption and rapid adoption.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <span class="step-num">Phase 04</span>
+                            <h3 class="timeline-title">Continuous Optimization</h3>
+                            <p class="timeline-desc">Post-implementation, we establish robust KPIs and monitoring systems. We continuously refine the strategy to adapt to market shifts and maximize your return on investment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats section-padding bg-primary" style="background-color: var(--primary); color: white;">
+            <div class="container">
+                <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center;">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
+                        <h3 style="font-size: 60px; font-weight: 700; margin-bottom: 5px; font-family: var(--font-heading);"><span class="counter" data-target="500">0</span>+</h3>
+                        <p style="font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Projects Completed</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                        <h3 style="font-size: 60px; font-weight: 700; margin-bottom: 5px; font-family: var(--font-heading);"><span class="counter" data-target="98">0</span>%</h3>
+                        <p style="font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Client Satisfaction</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <h3 style="font-size: 60px; font-weight: 700; margin-bottom: 5px; font-family: var(--font-heading);"><span class="counter" data-target="25">0</span>+</h3>
+                        <p style="font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Expert Consultants</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                        <h3 style="font-size: 60px; font-weight: 700; margin-bottom: 5px; font-family: var(--font-heading);"><span class="counter" data-target="15">0</span></h3>
+                        <p style="font-size: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Global Awards</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features section-padding bg-dark">
+            <div class="container">
+                <div class="features-wrapper">
+                    <div class="features-header">
+                        <span class="tag">Why choose us</span>
+                        <h2 class="section-title text-white">Our Experience<br>by Professional<br>Our Team.</h2>
+                        <div class="dots-nav">
+                            <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+                        </div>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card" data-aos="fade-left">
+                            <h3 class="feature-title text-white">Organizational<br>Design</h3>
+                            <p class="feature-desc">Nullam eget cursus enim. In tet cursus. Integer nunc ipsum laort nonus.</p>
+                            <div class="feature-icon box-1">
+                                <svg viewBox="0 0 100 100" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M50 10 Q50 50 10 50 Q50 50 50 90 Q50 50 90 50 Q50 50 50 10 Z"/>
+                                </svg>
+                            </div>
+                            <a href="#" class="read-more dark-mode">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                        <div class="feature-card" data-aos="fade-left" data-aos-delay="100">
+                            <h3 class="feature-title text-white">Financial<br>Advisory</h3>
+                            <p class="feature-desc">Nullam eget cursus enim. In tet cursus. Integer nunc ipsum laort nonus.</p>
+                            <div class="feature-icon box-2">
+                                <svg viewBox="0 0 100 100" width="60" height="60" fill="none" class="circle-chart">
+                                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M50 10 L50 90 M50 50 L90 50 M50 30 L85 30 M50 70 L85 70 M70 50 L70 90" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M10 50 L50 50 L50 10 A40 40 0 0 0 10 50" fill="rgba(255,255,255,0.1)"/>
+                                </svg>
+                            </div>
+                            <a href="#" class="read-more dark-mode">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                        <div class="feature-card" data-aos="fade-left" data-aos-delay="200">
+                            <h3 class="feature-title text-white">Risk<br>Management</h3>
+                            <p class="feature-desc">Nullam eget cursus enim. In tet cursus. Integer nunc ipsum laort nonus.</p>
+                            <div class="feature-icon box-3">
+                                <svg viewBox="0 0 100 100" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="20" y="20" width="60" height="60" stroke="currentColor"/>
+                                    <path d="M40 20 L40 80 M60 20 L60 80 M20 40 L80 40 M20 60 L80 60"/>
+                                </svg>
+                            </div>
+                            <a href="404.html" class="read-more dark-mode">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies Section -->
+        <section class="case-studies section-padding bg-darker">
+            <div class="container">
+                <div class="section-top text-center mb-12">
+                    <span class="tag" data-aos="fade-up">Proven Impact</span>
+                    <h2 class="section-title text-white" data-aos="fade-up" data-aos-delay="100">Featured Case Studies</h2>
+                </div>
+                <div class="case-grid">
+                    <div class="case-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="case-img">
+                            <img src="assets/images/service_1.png" alt="Tech Restructuring">
+                            <div class="case-overlay">
+                                <span class="case-stat">+35%</span>
+                                <span class="case-stat-label">Operational Efficiency</span>
+                            </div>
+                        </div>
+                        <div class="case-content">
+                            <span class="category"><span class="line"></span> Technology</span>
+                            <h3 class="case-title">Global Tech Restructuring</h3>
+                            <a href="#" class="read-more dark-mode mt-4">View Case <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                    </div>
+                    <div class="case-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="case-img">
+                            <img src="assets/images/service_2.png" alt="Mergers">
+                            <div class="case-overlay">
+                                <span class="case-stat">$40M</span>
+                                <span class="case-stat-label">Acquisition Value</span>
+                            </div>
+                        </div>
+                        <div class="case-content">
+                            <span class="category"><span class="line"></span> Mergers</span>
+                            <h3 class="case-title">Nexus Supply Chain Fusion</h3>
+                            <a href="#" class="read-more dark-mode mt-4">View Case <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                    </div>
+                    <div class="case-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="case-img">
+                            <img src="assets/images/service_3.png" alt="Optimization">
+                            <div class="case-overlay">
+                                <span class="case-stat">50%</span>
+                                <span class="case-stat-label">Burn Rate Reduction</span>
+                            </div>
+                        </div>
+                        <div class="case-content">
+                            <span class="category"><span class="line"></span> Finance</span>
+                            <h3 class="case-title">Acme Corp Operations Audit</h3>
+                            <a href="#" class="read-more dark-mode mt-4">View Case <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Team Section -->
+        <section class="team section-padding bg-light">
+            <div class="container">
+                <div class="section-top text-center mb-12">
+                    <span class="tag" data-aos="fade-up">Leadership</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Meet Our Managing Partners</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="team-img">
+                            <img src="assets/images/about_man.png" alt="Jonathan Hayes">
+                            <div class="team-social">
+                                <a href="404.html" class="social-icon">in</a>
+                                <a href="404.html" class="social-icon">X</a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h3 class="team-name">Jonathan Hayes</h3>
+                            <span class="team-role">Senior Managing Partner</span>
+                        </div>
+                    </div>
+                    <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="team-img">
+                            <img src="assets/images/about_team.png" alt="Dr. Alisha Reynolds">
+                            <div class="team-social">
+                                <a href="404.html" class="social-icon">in</a>
+                                <a href="404.html" class="social-icon">X</a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h3 class="team-name">Dr. Alisha Reynolds</h3>
+                            <span class="team-role">Head of Global Strategy</span>
+                        </div>
+                    </div>
+                    <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="team-img">
+                            <img src="assets/images/about_man.png" alt="Marcus Vance">
+                            <!-- Reusing image due to quota constraint -->
+                            <div class="team-social">
+                                <a href="404.html" class="social-icon">in</a>
+                                <a href="404.html" class="social-icon">X</a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h3 class="team-name">Marcus Vance</h3>
+                            <span class="team-role">VP of Restructuring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials section-padding">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <span class="tag" style="display:inline-block; padding: 8px 20px; background: rgba(0, 196, 204, 0.1); border-radius: 30px; color: var(--primary); font-size: 13px; margin-bottom: 20px; font-weight: 600;">Client Reviews</span>
+                    <h2 class="section-title" data-aos="fade-up">What They Say About Us</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="quote-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="var(--primary)"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg></div>
+                        <p class="testimonial-text">"STACKLY completely transformed our corporate operations. Their strategic framework helped us double our efficiency margin within just three months."</p>
+                        <div class="client-info">
+                            <div class="avatar" style="background: linear-gradient(135deg, #00c4cc, #008a90); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; border-radius:50%; width:50px; height:50px; font-size:20px;">S</div>
+                            <div class="client-details">
+                                <h4 class="client-name">Sarah Jenkins</h4>
+                                <span class="client-role">CEO at Vertex</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="quote-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="var(--primary)"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg></div>
+                        <p class="testimonial-text">"The level of professionalism and the depth of their business analysis was outstanding. We now have a clear roadmap for the next 5 years."</p>
+                        <div class="client-info">
+                            <div class="avatar" style="background: linear-gradient(135deg, #333, #111); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; border-radius:50%; width:50px; height:50px; font-size:20px;">M</div>
+                            <div class="client-details">
+                                <h4 class="client-name">Marcus Chen</h4>
+                                <span class="client-role">Founder of Global Tech</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="quote-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="var(--primary)"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg></div>
+                        <p class="testimonial-text">"Choosing STACKLY was the best decision for our rebranding. Their expertise in corporate fusion services is simply unmatched in the market."</p>
+                        <div class="client-info">
+                            <div class="avatar" style="background: linear-gradient(135deg, #f68b33, #e56b00); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; border-radius:50%; width:50px; height:50px; font-size:20px;">E</div>
+                            <div class="client-details">
+                                <h4 class="client-name">Elena Rodriguez</h4>
+                                <span class="client-role">Director at Acme</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- FAQ Section -->
+        <section class="faq section-padding">
+            <div class="container max-w-lg">
+                <div class="text-center mb-12">
+                    <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+                        <button class="faq-question">What is STACKLY's Consulting Framework? <span>+</span></button>
+                        <div class="faq-answer"><p>It is a comprehensive blueprint designed to align your business goals with actionable operational tactics. We evaluate your current market positioning and chart out precise steps to scale.</p></div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                        <button class="faq-question">How exactly does the consulting process work? <span>+</span></button>
+                        <div class="faq-answer"><p>We begin with a deep-dive audit of your processes, followed by market research. We then present a highly specialized roadmap, which our team helps you implement step-by-step.</p></div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                        <button class="faq-question">Do you offer customized packages? <span>+</span></button>
+                        <div class="faq-answer"><p>Absolutely. While our standard tiers cover most use-cases, we can architect completely custom consulting agreements depending on project scope.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section section-padding bg-dark" style="position: relative; overflow:hidden;">
+            <div class="cta-bg-shape" style="position:absolute; top:-50%; right:-10%; width:50%; height:200%; background:radial-gradient(ellipse at center, rgba(0,196,204,0.15) 0%, transparent 70%); z-index:0;"></div>
+            <div class="container" style="position:relative; z-index:1;">
+                <div class="cta-wrapper" data-aos="zoom-in">
+                    <div class="row" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:40px;">
+                        <div class="cta-content max-w-lg">
+                            <h2 class="text-white mb-4" style="font-size: clamp(32px, 4vw, 42px);">Ready to Transform Your Business?</h2>
+                            <p class="text-white-50 mb-8" style="font-size:18px;">Get in touch with our experts today and discover how our strategic frameworks can drive your growth.</p>
+                        </div>
+                        <div class="cta-form" style="flex:1; min-width:300px;">
+                            <form style="display:flex; gap:10px; width:100%; max-width:500px; margin-left:auto; flex-wrap:wrap;">
+                                <input type="email" placeholder="Enter your email address" style="flex:1; min-width: 200px; padding:15px 25px; border-radius:30px; border:none; outline:none; font-family:var(--font-sans); font-size:15px; background:rgba(255,255,255,0.1); color:var(--white);">
+                                <button type="button" class="btn btn-primary" style="flex-shrink:0; padding:15px 30px;">Subscribe</button>
+                            </form>
+                            <p style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:15px; text-align:right;">We respect your privacy. No spam ever.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Follow Section -->
+        <section class="social-follow bg-darker" style="background-color: var(--dark); padding: 80px 0; text-align: center; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.05);">
+            <div class="container">
+                <span class="tag" style="display:inline-block; padding: 8px 20px; background: rgba(0, 196, 204, 0.1); border-radius: 30px; color: var(--primary); font-size: 13px; margin-bottom: 40px; font-weight: 600;" data-aos="fade-up">Connect With Us</span>
+                <div class="norris-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;" data-aos="fade-up" data-aos-delay="100">
+                    <a href="404.html" class="norris">TikTok</a>
+                    <a href="404.html" class="norris">Instagram</a>
+                    <a href="404.html" class="norris">Facebook</a>
+                    <a href="404.html" class="norris">Twitter</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer bg-dark border-top-glow">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="logo text-white mb-4">STACKLY</div>
+                    <p class="footer-desc">Global Management Consulting delivering strategic advisory to optimize operations and drive sustainable business growth.</p>
+                    <div class="social-links mt-8">
+                        <a href="404.html" class="social-icon">f</a>
+                        <a href="404.html" class="social-icon">X</a>
+                        <a href="404.html" class="social-icon">in</a>
+                    </div>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="404.html">Corporate Restructuring</a></li>
+                        <li><a href="404.html">Mergers & Acquisitions</a></li>
+                        <li><a href="404.html">Process Optimization</a></li>
+                        <li><a href="404.html">Financial Advisory</a></li>
+                        <li><a href="404.html">Risk Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>    
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">Office</h4>
+                    <ul class="footer-links contact-list">
+                        <li>Salem, Tamilnadu, India</li>
+                        <li>Ph: +91 98765 43210</li>
+                        <li>Email: contact@stackly.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2026 STACKLY Consulting. All rights reserved.
+                </div>
+                <div class="legal-links">
+                    <a href="404.html">Privacy Policy</a>
+                    <a href="404.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

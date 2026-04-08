@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Blog | Insights & Business Strategy</title>
+    <meta name="description" content="Expert insights, strategic frameworks, and industry research from STACKLY's management consulting team. Stay ahead of the market.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ---- Blog Page ---- */
+        .inner-hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+        }
+        .inner-hero::before {
+            content: '';
+            position: absolute;
+            top: -40%; right: -10%;
+            width: 60%; height: 200%;
+            background: radial-gradient(ellipse at center, rgba(0,196,204,0.12) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .inner-hero .container { position: relative; z-index: 2; }
+        .breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 25px; }
+        .breadcrumb a { color: rgba(255,255,255,0.5); transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--primary); }
+        .breadcrumb span { color: var(--primary); }
+
+        /* Category Filter Pills */
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 60px; }
+        .filter-pill { padding: 10px 22px; border-radius: 30px; font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition); border: 1px solid transparent; background: var(--gray); color: var(--text-muted); }
+        .filter-pill:hover, .filter-pill.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+        /* Featured Post */
+        .featured-post {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 70px;
+        }
+        @media (min-width: 1024px) { .featured-post { grid-template-columns: 1.2fr 1fr; } }
+        .featured-post-img { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+        @media (min-width: 1024px) { .featured-post-img { aspect-ratio: auto; min-height: 480px; } }
+        .featured-post-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .featured-post:hover .featured-post-img img { transform: scale(1.05); }
+        .featured-badge { position: absolute; top: 20px; left: 20px; background: var(--primary); color: var(--white); padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+        .featured-post-body { background: var(--white); padding: 50px; display: flex; flex-direction: column; justify-content: center; }
+        .post-cat-tag { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        .featured-post-title { font-size: clamp(24px,3vw,36px); font-weight: 700; line-height: 1.3; margin-bottom: 20px; }
+        .featured-post-title a { color: var(--dark); transition: var(--transition); }
+        .featured-post-title a:hover { color: var(--primary); }
+        .post-excerpt { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; }
+        .post-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .author-chip { display: flex; align-items: center; gap: 10px; }
+        .author-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: var(--white); flex-shrink: 0; }
+        .author-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+        .post-date { font-size: 13px; color: var(--text-muted); }
+        .post-read-time { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+
+        /* Blog Grid */
+        .blog-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (min-width: 1200px) { .blog-layout { grid-template-columns: 1fr 340px; } }
+        .blog-grid { display: grid; grid-template-columns: 1fr; gap: 35px; }
+        @media (min-width: 640px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* Blog Card */
+        .blog-card { background: var(--white); border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); transition: var(--transition); display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.08); border-color: rgba(0,196,204,0.2); }
+        .blog-card-img { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+        .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .blog-card:hover .blog-card-img img { transform: scale(1.08); }
+        .blog-card-cat { position: absolute; bottom: 12px; left: 12px; background: var(--primary); color: var(--white); padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .blog-card-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+        .blog-card-title { font-size: 19px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+        .blog-card-title a { color: var(--dark); transition: var(--transition); }
+        .blog-card-title a:hover { color: var(--primary); }
+        .blog-card-excerpt { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; flex: 1; }
+        .blog-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; border-top: 1px solid rgba(0,0,0,0.05); }
+        .blog-card-meta { display: flex; align-items: center; gap: 8px; }
+        .blog-card-meta .author-avatar { width: 30px; height: 30px; font-size: 12px; }
+        .blog-card-meta span { font-size: 13px; color: var(--text-muted); }
+        .blog-card-link { font-size: 13px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 5px; transition: var(--transition); }
+        .blog-card-link:hover { gap: 8px; }
+
+        /* Sidebar */
+        .sidebar { display: flex; flex-direction: column; gap: 35px; }
+        .sidebar-widget { background: var(--white); border-radius: 16px; padding: 30px; border: 1px solid rgba(0,0,0,0.05); }
+        .sidebar-widget-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--gray); }
+        /* Search */
+        .sidebar-search { display: flex; gap: 0; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        .sidebar-search input { flex: 1; padding: 12px 15px; border: none; outline: none; font-family: var(--font-sans); font-size: 14px; }
+        .sidebar-search button { background: var(--primary); border: none; padding: 12px 16px; cursor: pointer; color: var(--white); transition: var(--transition); }
+        .sidebar-search button:hover { background: var(--dark); }
+        /* Categories */
+        .cat-list { display: flex; flex-direction: column; gap: 10px; }
+        .cat-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); cursor: pointer; transition: var(--transition); }
+        .cat-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .cat-item:hover .cat-name { color: var(--primary); }
+        .cat-name { font-size: 15px; font-weight: 500; transition: var(--transition); }
+        .cat-count { background: var(--gray); color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+        /* Recent Posts */
+        .recent-post-item { display: flex; gap: 15px; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .recent-post-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .recent-thumb { width: 70px; height: 60px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+        .recent-post-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: var(--dark); transition: var(--transition); }
+        .recent-post-title:hover { color: var(--primary); }
+        .recent-post-date { font-size: 12px; color: var(--text-muted); }
+        /* Tags */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag-chip { padding: 6px 14px; border-radius: 20px; background: var(--gray); font-size: 13px; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
+        .tag-chip:hover { background: var(--primary); color: var(--white); }
+        /* Newsletter */
+        .newsletter-widget { background: var(--dark); border-color: rgba(255,255,255,0.05); }
+        .newsletter-widget .sidebar-widget-title { color: var(--white); border-color: rgba(255,255,255,0.1); }
+        .newsletter-widget p { color: rgba(255,255,255,0.55); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+        .nl-input { width: 100%; padding: 13px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: var(--white); font-family: var(--font-sans); font-size: 14px; outline: none; margin-bottom: 10px; }
+        .nl-input::placeholder { color: rgba(255,255,255,0.3); }
+        .nl-input:focus { border-color: var(--primary); }
+        .nl-btn { width: 100%; padding: 13px; border-radius: 8px; background: var(--primary); color: var(--white); border: none; font-family: var(--font-heading); font-size: 15px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .nl-btn:hover { background: #00a8af; }
+
+        /* Pagination */
+        .pagination { display: flex; gap: 8px; justify-content: center; margin-top: 50px; }
+        .page-btn { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; cursor: pointer; transition: var(--transition); border: 1px solid rgba(0,0,0,0.08); background: var(--white); color: var(--dark); }
+        .page-btn:hover, .page-btn.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">STACKLY</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="contact-info desktop-only">
+                    <span class="label">Need help? Call us</span>
+                    <a href="tel:9876543210" class="phone">+91 9876543210</a>
+                </div>
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-icon desktop-only">Login<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                <button class="menu-toggle mobile-only" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="mobile-contact mt-8">
+                <p class="text-white mb-2">Need help? Call us</p>
+                <a href="tel:9876543210" class="phone" style="color:#00c4cc">+91 9876543210</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="inner-hero">
+            <div class="hero-bg" style="background-image: url('assets/images/service_2.png'); filter: brightness(0.2);"></div>
+            <div class="hero-overlay" style="background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,10,15,0.6) 100%);"></div>
+            <div class="container">
+                <div class="breadcrumb" data-aos="fade-up">
+                    <a href="index.html">Home</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <span>Blog</span>
+                </div>
+                <div style="max-width: 700px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up" data-aos-delay="50">Insights & Research</span>
+                    <h1 class="text-white" data-aos="fade-up" data-aos-delay="100" style="font-size:clamp(40px,6vw,72px); line-height:1.1;">The STACKLY<br><span style="color:var(--primary);">Intelligence Hub</span></h1>
+                    <p style="font-size:17px; color:rgba(255,255,255,0.6); margin-top:20px; line-height:1.9; max-width:560px;" data-aos="fade-up" data-aos-delay="200">Strategic thinking, market intelligence, and actionable frameworks — curated by our managing partners and research team.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Main Content -->
+        <section class="section-padding" style="background:#f9f9f9;">
+            <div class="container">
+
+                <!-- Category Filter -->
+                <div class="filter-bar" data-aos="fade-up">
+                    <span class="filter-pill active">All Topics</span>
+                    <span class="filter-pill">Strategy</span>
+                    <span class="filter-pill">M&A</span>
+                    <span class="filter-pill">Digital</span>
+                    <span class="filter-pill">Leadership</span>
+                    <span class="filter-pill">Finance</span>
+                    <span class="filter-pill">Operations</span>
+                </div>
+
+                <!-- Featured Post -->
+                <div class="featured-post" data-aos="fade-up">
+                    <div class="featured-post-img">
+                        <img src="assets/images/about_team.png" alt="The Corporate Strategy Playbook">
+                        <span class="featured-badge">⭐ Featured</span>
+                    </div>
+                    <div class="featured-post-body">
+                        <span class="post-cat-tag">Corporate Strategy</span>
+                        <h2 class="featured-post-title">
+                            <a href="404.html">The Corporate Strategy Playbook: How Winning Firms Build Durable Competitive Advantage in 2025</a>
+                        </h2>
+                        <p class="post-excerpt">In an era of relentless disruption, corporate strategy is no longer a once-a-year exercise — it's a living system. We break down the frameworks used by the world's most resilient organizations to stay ahead.</p>
+                        <div class="post-meta">
+                            <div class="author-chip">
+                                <div class="author-avatar" style="background:linear-gradient(135deg,#00c4cc,#008a90);">J</div>
+                                <div>
+                                    <div class="author-name">Jonathan Hayes</div>
+                                    <div class="post-date">April 2, 2025</div>
+                                </div>
+                            </div>
+                            <div class="post-read-time">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                12 min read
+                            </div>
+                        </div>
+                        <a href="404.html" class="read-more" style="margin-top:30px; display:inline-flex; align-items:center; gap:8px;">Read Full Article <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                    </div>
+                </div>
+
+                <!-- Blog Grid + Sidebar -->
+                <div class="blog-layout">
+
+                    <!-- Main Grid -->
+                    <div>
+                        <div class="blog-grid">
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="0">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/service_1.png" alt="M&A Integration Failures">
+                                    <span class="blog-card-cat">M&A</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">Why 70% of M&A Integrations Fail — And How to Be in the 30% That Succeed</a></h3>
+                                    <p class="blog-card-excerpt">The deal is signed, the press release is out — but the real work begins now. We examine the most common post-merger pitfalls and the exact integration framework our team uses to avoid them.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#f68b33,#e56b00);">P</div>
+                                            <span>Priya Nair · Mar 18</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/service_2.png" alt="AI in Finance">
+                                    <span class="blog-card-cat">Digital</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">AI Adoption in the CFO's Office: From Hype to Hard ROI in 6 Months</a></h3>
+                                    <p class="blog-card-excerpt">Finance leaders who've moved past the AI hype are reporting quantifiable gains. Here's what they're doing differently — and the specific tools driving measurable cost reductions.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#333,#111);">M</div>
+                                            <span>Marcus Vance · Mar 10</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="0">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/service_3.png" alt="Supply Chain Resilience">
+                                    <span class="blog-card-cat">Operations</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">Building a Shock-Proof Supply Chain: Lessons from Global Disruption</a></h3>
+                                    <p class="blog-card-excerpt">Between port disruptions, geopolitical risk, and demand volatility, supply chain resilience has become a boardroom priority. We share the five structural changes that matter most.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#00c4cc,#008a90);">A</div>
+                                            <span>Dr. Alisha Reynolds · Feb 28</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/about_man.png" alt="CEO Leadership">
+                                    <span class="blog-card-cat">Leadership</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">The 5 Leadership Behaviours of CEOs Who Navigate Crises With Confidence</a></h3>
+                                    <p class="blog-card-excerpt">After advising executives through financial crises, pivots, and market collapses, we've identified the key behavioural patterns that separate resilient leadership from reactive management.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#333,#111);">J</div>
+                                            <span>Jonathan Hayes · Feb 14</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="0">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/about_team.png" alt="Org Restructuring">
+                                    <span class="blog-card-cat">Strategy</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">Organizational Restructuring in 2025: What's Changed and What Still Works</a></h3>
+                                    <p class="blog-card-excerpt">Restructuring has evolved far beyond headcount reduction. Modern org design is about speed, accountability, and eliminating bureaucracy — here's our updated playbook.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#f68b33,#e56b00);">P</div>
+                                            <span>Priya Nair · Jan 25</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                                <div class="blog-card-img">
+                                    <img src="assets/images/service_1.png" alt="Financial Planning">
+                                    <span class="blog-card-cat">Finance</span>
+                                </div>
+                                <div class="blog-card-body">
+                                    <h3 class="blog-card-title"><a href="404.html">Beyond Budgeting: Why Forward-Looking Financial Models are Replacing Annual Plans</a></h3>
+                                    <p class="blog-card-excerpt">The annual budget is dead — at least for high-growth companies. Rolling forecasts, driver-based models, and scenario planning are taking its place. Here's how to make the switch.</p>
+                                    <div class="blog-card-footer">
+                                        <div class="blog-card-meta">
+                                            <div class="author-avatar" style="background:linear-gradient(135deg,#00c4cc,#008a90);">A</div>
+                                            <span>Dr. Alisha Reynolds · Jan 10</span>
+                                        </div>
+                                        <a href="404.html" class="blog-card-link">Read <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination" data-aos="fade-up">
+                            <div class="page-btn active">1</div>
+                            <div class="page-btn">2</div>
+                            <div class="page-btn">3</div>
+                            <div class="page-btn" style="width:auto; padding:0 16px;">Next →</div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <aside class="sidebar">
+
+                        <!-- Search -->
+                        <div class="sidebar-widget" data-aos="fade-up">
+                            <h3 class="sidebar-widget-title">Search Articles</h3>
+                            <div class="sidebar-search">
+                                <input type="text" placeholder="Search insights...">
+                                <button><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="sidebar-widget" data-aos="fade-up">
+                            <h3 class="sidebar-widget-title">Browse Categories</h3>
+                            <div class="cat-list">
+                                <div class="cat-item"><span class="cat-name">Corporate Strategy</span><span class="cat-count">12</span></div>
+                                <div class="cat-item"><span class="cat-name">Mergers & Acquisitions</span><span class="cat-count">8</span></div>
+                                <div class="cat-item"><span class="cat-name">Digital Transformation</span><span class="cat-count">15</span></div>
+                                <div class="cat-item"><span class="cat-name">Leadership</span><span class="cat-count">10</span></div>
+                                <div class="cat-item"><span class="cat-name">Financial Advisory</span><span class="cat-count">7</span></div>
+                                <div class="cat-item"><span class="cat-name">Operations</span><span class="cat-count">9</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Posts -->
+                        <div class="sidebar-widget" data-aos="fade-up">
+                            <h3 class="sidebar-widget-title">Recent Articles</h3>
+                            <div>
+                                <div class="recent-post-item">
+                                    <img src="assets/images/service_2.png" alt="Recent" class="recent-thumb">
+                                    <div>
+                                        <a href="404.html" class="recent-post-title">The New Rules of Corporate Governance in a Volatile Economy</a>
+                                        <div class="recent-post-date">April 5, 2025</div>
+                                    </div>
+                                </div>
+                                <div class="recent-post-item">
+                                    <img src="assets/images/service_3.png" alt="Recent" class="recent-thumb">
+                                    <div>
+                                        <a href="404.html" class="recent-post-title">How to Structure a Winning RFP for Consulting Engagements</a>
+                                        <div class="recent-post-date">March 30, 2025</div>
+                                    </div>
+                                </div>
+                                <div class="recent-post-item">
+                                    <img src="assets/images/about_man.png" alt="Recent" class="recent-thumb">
+                                    <div>
+                                        <a href="404.html" class="recent-post-title">ESG Reporting: What Investors Actually Want to See</a>
+                                        <div class="recent-post-date">March 22, 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tag Cloud -->
+                        <div class="sidebar-widget" data-aos="fade-up">
+                            <h3 class="sidebar-widget-title">Popular Tags</h3>
+                            <div class="tag-cloud">
+                                <span class="tag-chip">Strategy</span>
+                                <span class="tag-chip">M&A</span>
+                                <span class="tag-chip">Digital</span>
+                                <span class="tag-chip">Leadership</span>
+                                <span class="tag-chip">Finance</span>
+                                <span class="tag-chip">ESG</span>
+                                <span class="tag-chip">AI</span>
+                                <span class="tag-chip">Restructuring</span>
+                                <span class="tag-chip">Growth</span>
+                                <span class="tag-chip">Risk</span>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter Widget -->
+                        <div class="sidebar-widget newsletter-widget" data-aos="fade-up">
+                            <h3 class="sidebar-widget-title">Weekly Intelligence</h3>
+                            <p>Get curated insights from our managing partners delivered straight to your inbox every Tuesday. No spam, ever.</p>
+                            <input type="email" class="nl-input" placeholder="Your email address">
+                            <button class="nl-btn">Subscribe Free →</button>
+                        </div>
+
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section section-padding bg-dark" style="position:relative; overflow:hidden;">
+            <div style="position:absolute; top:-50%; right:-10%; width:50%; height:200%; background:radial-gradient(ellipse at center, rgba(0,196,204,0.15) 0%, transparent 70%); z-index:0;"></div>
+            <div class="container" style="position:relative; z-index:1;" data-aos="zoom-in">
+                <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:40px;">
+                    <div style="max-width:500px;">
+                        <h2 class="text-white" style="font-size:clamp(28px,4vw,42px); margin-bottom:15px;">Want Expert Advice for<br>Your Business?</h2>
+                        <p style="font-size:17px; color:rgba(255,255,255,0.6); line-height:1.8;">Our managing partners don't just write about strategy — they implement it. Book a free 30-minute consultation today.</p>
+                    </div>
+                    <a href="404.html" class="btn btn-primary btn-icon" style="font-size:16px; padding:18px 40px;">Book a Free Call <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer bg-dark border-top-glow">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="logo text-white mb-4">STACKLY</div>
+                    <p class="footer-desc">Global Management Consulting delivering strategic advisory to optimize operations and drive sustainable business growth.</p>
+                    <div class="social-links mt-8">
+                        <a href="404.html" class="social-icon">f</a>
+                        <a href="404.html" class="social-icon">X</a>
+                        <a href="404.html" class="social-icon">in</a>
+                    </div>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="services.html">Corporate Restructuring</a></li>
+                        <li><a href="services.html">Mergers &amp; Acquisitions</a></li>
+                        <li><a href="services.html">Process Optimization</a></li>
+                        <li><a href="services.html">Financial Advisory</a></li>
+                        <li><a href="services.html">Risk Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">Office</h4>
+                    <ul class="footer-links contact-list">
+                        <li>Salem, Tamilnadu, India</li>
+                        <li>Ph: +91 98765 43210</li>
+                        <li>Email: contact@stackly.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2026 STACKLY Consulting. All rights reserved.</div>
+                <div class="legal-links">
+                    <a href="404.html">Privacy Policy</a>
+                    <a href="404.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

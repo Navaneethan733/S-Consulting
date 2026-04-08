@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - About Us | Our Story & Team</title>
+    <meta name="description" content="Learn about STACKLY — our founding story, core values, leadership team, and the mission driving our global consulting practice.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ---- About Page Specific ---- */
+        .inner-hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+        }
+        .inner-hero::before {
+            content: '';
+            position: absolute;
+            top: -40%; right: -10%;
+            width: 60%; height: 200%;
+            background: radial-gradient(ellipse at center, rgba(0,196,204,0.12) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .inner-hero .container { position: relative; z-index: 2; }
+        .breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 25px; }
+        .breadcrumb a { color: rgba(255,255,255,0.5); transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--primary); }
+        .breadcrumb span { color: var(--primary); }
+
+        /* Story Section */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        @media (min-width: 1024px) { .story-grid { grid-template-columns: 1fr 1fr; gap: 100px; } }
+        .story-img-wrap { position: relative; }
+        .story-img-main { width: 100%; border-radius: 16px; object-fit: cover; aspect-ratio: 4/5; }
+        .story-img-accent {
+            position: absolute;
+            bottom: -30px; right: -20px;
+            width: 50%;
+            border-radius: 12px;
+            border: 8px solid var(--white);
+            object-fit: cover;
+            aspect-ratio: 1/1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        @media (max-width: 768px) { .story-img-accent { bottom: -20px; right: -10px; border-width: 4px; } }
+        .founded-badge {
+            position: absolute;
+            top: 25px; left: -20px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 20px 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,196,204,0.35);
+        }
+        .founded-badge .yr { font-size: 32px; font-weight: 800; line-height: 1; font-family: var(--font-heading); }
+        .founded-badge .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.85; }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        @media (min-width: 768px) { .values-grid { grid-template-columns: repeat(4, 1fr); } }
+        .value-card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,196,204,0.06), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .value-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,196,204,0.1); border-color: rgba(0,196,204,0.25); }
+        .value-card:hover::before { opacity: 1; }
+        .value-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: rgba(0,196,204,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            transition: var(--transition);
+        }
+        .value-card:hover .value-icon { background: var(--primary); }
+        .value-card:hover .value-icon svg { color: var(--white); }
+        .value-icon svg { color: var(--primary); transition: var(--transition); }
+        .value-title { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+        .value-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+        /* Company Timeline */
+        .history-timeline { 
+            position: relative; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 40px 0;
+        }
+        .history-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0; bottom: 0;
+            width: 2px;
+            background: rgba(0,0,0,0.06);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        @media (max-width: 768px) { 
+            .history-timeline::before { left: 20px; transform: none; }
+        }
+        
+        .ht-item {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        @media (max-width: 768px) {
+            .ht-item {
+                grid-template-columns: 60px 1fr;
+                margin-bottom: 50px;
+            }
+        }
+
+        .ht-content {
+            padding: 0;
+        }
+        .ht-item:nth-child(odd) .ht-left .ht-content { text-align: right; padding-right: 50px; }
+        .ht-item:nth-child(even) .ht-right .ht-content { text-align: left; padding-left: 50px; }
+        
+        @media (max-width: 768px) {
+            .ht-item:nth-child(odd) .ht-left .ht-content,
+            .ht-item:nth-child(even) .ht-right .ht-content { text-align: left; padding: 0; }
+            .ht-left, .ht-right { grid-column: 2; }
+            .ht-center { grid-column: 1; grid-row: 1; }
+        }
+
+        .ht-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ht-dot {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 6px rgba(0,196,204,0.1);
+            position: relative;
+            z-index: 5;
+        }
+
+        .ht-year { 
+            font-size: 14px; 
+            color: var(--primary); 
+            font-weight: 700; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+        }
+        .ht-title { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: var(--dark); }
+        .ht-desc { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
+
+        /* Team Cards */
+        .about-team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        @media (min-width: 768px) { .about-team-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .about-team-grid { grid-template-columns: repeat(4, 1fr); } }
+        .about-team-card { position: relative; border-radius: 16px; overflow: hidden; }
+        .about-team-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; filter: grayscale(60%); transition: var(--transition); }
+        .about-team-card:hover img { filter: grayscale(0%); transform: scale(1.04); }
+        .atc-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 70%);
+            padding: 30px 20px 20px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .about-team-card:hover .atc-overlay { opacity: 1; transform: translateY(0); }
+        .atc-name { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+        .atc-role { font-size: 12px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .atc-static { padding: 15px 5px 0; }
+        .atc-static .atc-name { color: var(--dark); }
+
+        /* Clients Banner */
+        .clients-banner { overflow: hidden; }
+        .clients-scroller { display: flex; gap: 50px; align-items: center; animation: marquee 25s linear infinite; width: max-content; }
+        .clients-scroller:hover { animation-play-state: paused; }
+        .client-brand { font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.3); letter-spacing: 1px; white-space: nowrap; transition: var(--transition); cursor: default; }
+        .client-brand:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">STACKLY</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="contact-info desktop-only">
+                    <span class="label">Need help? Talk to Phone</span>
+                    <a href="tel:9876543210" class="phone">+91 9876543210</a>
+                </div>
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-icon desktop-only">Login<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                <button class="menu-toggle mobile-only" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="mobile-contact mt-8">
+                <p class="text-white mb-2">Need help? Talk to Phone</p>
+                <a href="tel:9876543210" class="phone" style="color:#00c4cc">+91 9876543210</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="inner-hero">
+            <div class="hero-bg" style="background-image: url('assets/images/about_team.png'); filter: brightness(0.25);"></div>
+            <div class="hero-overlay" style="background: linear-gradient(to right, rgba(0,0,0,0.88) 0%, rgba(0,10,10,0.5) 100%);"></div>
+            <div class="container">
+                <div class="breadcrumb" data-aos="fade-up">
+                    <a href="index.html">Home</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <span>About Us</span>
+                </div>
+                <div style="max-width: 700px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up" data-aos-delay="50">Our Story</span>
+                    <h1 class="text-white" data-aos="fade-up" data-aos-delay="100" style="font-size:clamp(42px,6vw,78px); line-height:1.1;">Pioneering the<br>Future of <span style="color:var(--primary);">Corporate<br>Strategy</span></h1>
+                    <p style="font-size:18px; color:rgba(255,255,255,0.6); margin-top:25px; line-height:1.9; max-width:560px;" data-aos="fade-up" data-aos-delay="200">Since 2015, STACKLY has partnered with over 500 companies across 30+ countries — turning complexity into competitive advantage.</p>
+                </div>
+                <!-- Floating KPI chips -->
+                <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:50px;" data-aos="fade-up" data-aos-delay="300">
+                    <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:30px; padding:10px 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span style="color:rgba(255,255,255,0.75); font-size:14px;">Founded in 2015</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:30px; padding:10px 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span style="color:rgba(255,255,255,0.75); font-size:14px;">30+ Countries Served</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:30px; padding:10px 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span style="color:rgba(255,255,255,0.75); font-size:14px;">15 Global Awards</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Marquee Banner -->
+        <div class="clients-banner" style="background: var(--dark); padding: 25px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); overflow:hidden;">
+            <div class="clients-scroller">
+                <span class="client-brand">VERTEX</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">ACME CORP</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">NEXUSTECH</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">QUANTUM INC</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">GLOBAL CORP</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">PINNACLE</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <!-- Duplicate for infinite scroll -->
+                <span class="client-brand">VERTEX</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">ACME CORP</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">NEXUSTECH</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">QUANTUM INC</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">GLOBAL CORP</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+                <span class="client-brand">PINNACLE</span>
+                <span style="color:rgba(0,196,204,0.4); font-size:20px;">✦</span>
+            </div>
+        </div>
+
+        <!-- Our Story -->
+        <section class="section-padding" style="background:#f9f9f9;">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-img-wrap" data-aos="fade-right">
+                        <img src="assets/images/about_man.png" alt="STACKLY Founding" class="story-img-main">
+                        <img src="assets/images/about_team.png" alt="STACKLY Team" class="story-img-accent">
+                        <div class="founded-badge" data-aos="zoom-in" data-aos-delay="300">
+                            <div class="yr">10</div>
+                            <div class="lbl">Years of<br>Excellence</div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-left" data-aos-delay="100">
+                        <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:25px; font-weight:600;">Who We Are</span>
+                        <h2 class="section-title" style="margin-bottom:25px;">Built to Deliver<br>Not Just Advise</h2>
+                        <p style="color:var(--text-muted); font-size:16px; line-height:1.9; margin-bottom:20px;">STACKLY was founded in 2015 with a single conviction: that the consulting industry had to stop delivering thick reports and start delivering real results. Our founders — seasoned executives from Fortune 500 boardrooms and global investment banks — set out to build a firm that stays accountable.</p>
+                        <p style="color:var(--text-muted); font-size:16px; line-height:1.9; margin-bottom:35px;">Today, STACKLY is a global management consulting firm spanning 30+ countries, with a team of 25+ elite consultants who have lived the challenges they now help solve. We don't parachute in with boilerplate frameworks — we earn our place at the table every single day.</p>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px; margin-bottom:35px;">
+                            <div>
+                                <div style="font-size:42px; font-weight:800; color:var(--primary); font-family:var(--font-heading); line-height:1;">500+</div>
+                                <div style="font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:5px;">Projects Delivered</div>
+                            </div>
+                            <div>
+                                <div style="font-size:42px; font-weight:800; color:var(--primary); font-family:var(--font-heading); line-height:1;">98%</div>
+                                <div style="font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:5px;">Client Retention Rate</div>
+                            </div>
+                        </div>
+                        <a href="services.html" class="btn btn-primary btn-icon">Explore Our Services <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision -->
+        <section class="section-padding bg-dark">
+            <div class="container">
+                <div style="display:grid; grid-template-columns:1fr; gap:30px;" data-aos="fade-up">
+                    <div style="text-align:center;">
+                        <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:30px; color:var(--white); font-size:13px; margin-bottom:25px; font-weight:600;">Purpose</span>
+                        <h2 class="section-title text-white">Our Mission &amp; Vision</h2>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr; gap:30px; margin-top:50px;" >
+                    <div style="display:grid; grid-template-columns:1fr; gap:25px;">
+                        <!-- Mission -->
+                        <div style="background:#111; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:50px; display:flex; gap:30px; align-items:flex-start; transition: var(--transition);" data-aos="fade-up" data-aos-delay="0">
+                            <div style="width:56px; height:56px; border-radius:14px; background:rgba(0,196,204,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </div>
+                            <div>
+                                <h3 style="font-size:24px; color:var(--white); margin-bottom:15px;">Our Mission</h3>
+                                <p style="color:rgba(255,255,255,0.55); font-size:16px; line-height:1.9;">To empower organizations worldwide with the strategic intelligence, operational precision, and bold leadership capabilities needed to thrive in an era of relentless disruption — not just survive it.</p>
+                            </div>
+                        </div>
+                        <!-- Vision -->
+                        <div style="background:#111; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:50px; display:flex; gap:30px; align-items:flex-start;" data-aos="fade-up" data-aos-delay="100">
+                            <div style="width:56px; height:56px; border-radius:14px; background:rgba(0,196,204,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </div>
+                            <div>
+                                <h3 style="font-size:24px; color:var(--white); margin-bottom:15px;">Our Vision</h3>
+                                <p style="color:rgba(255,255,255,0.55); font-size:16px; line-height:1.9;">To be the most trusted corporate advisory firm in the world — recognized not for the size of our reports, but for the scale of our clients' successes and the permanence of the results we help create.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values -->
+        <section class="section-padding" style="background:#f9f9f9;">
+            <div class="container">
+                <div class="text-center mb-12" style="max-width:600px; margin:0 auto 60px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up">What We Stand For</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Principles That Guide<br>Everything We Do</h2>
+                </div>
+                <div class="values-grid">
+                    <div class="value-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                        <h3 class="value-title">Integrity</h3>
+                        <p class="value-desc">We tell clients what they need to hear — not what they want to hear. Honesty is the foundation of every lasting partnership we build.</p>
+                    </div>
+                    <div class="value-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                        <h3 class="value-title">Innovation</h3>
+                        <p class="value-desc">We constantly challenge conventional wisdom and deploy fresh frameworks — because the problems of tomorrow demand solutions that don't exist yet.</p>
+                    </div>
+                    <div class="value-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                        <h3 class="value-title">Partnership</h3>
+                        <p class="value-desc">We don't hand you a plan and disappear. We embed alongside your team, sharing the risks, the setbacks, and the wins — together.</p>
+                    </div>
+                    <div class="value-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                        <h3 class="value-title">Impact</h3>
+                        <p class="value-desc">Every engagement is measured by a single yardstick: did it move the needle? We hold ourselves accountable to real outcomes, not just deliverables.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company History Timeline -->
+        <section class="section-padding" style="background:var(--white);">
+            <div class="container">
+                <div class="text-center mb-12" style="max-width:600px; margin:0 auto 70px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up">Our Journey</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">A Decade of<br>Breaking Boundaries</h2>
+                </div>
+                <div class="history-timeline">
+                    <!-- 2015 -->
+                    <div class="ht-item" data-aos="fade-right">
+                        <div class="ht-left">
+                            <div class="ht-content">
+                                <div class="ht-year">2015</div>
+                                <h3 class="ht-title">The Founding</h3>
+                                <p class="ht-desc">STACKLY is founded in Salem, India by three former Fortune 500 executives with a mission to make enterprise consulting honest and results-driven.</p>
+                            </div>
+                        </div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right"></div>
+                    </div>
+
+                    <!-- 2017 -->
+                    <div class="ht-item" data-aos="fade-left">
+                        <div class="ht-left"></div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right">
+                            <div class="ht-content">
+                                <div class="ht-year">2017</div>
+                                <h3 class="ht-title">First $10M Engagement</h3>
+                                <p class="ht-desc">Secured our landmark $10M corporate restructuring assignment with a leading South Asian manufacturing group — a turning point that cemented our reputation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2019 -->
+                    <div class="ht-item" data-aos="fade-right">
+                        <div class="ht-left">
+                            <div class="ht-content">
+                                <div class="ht-year">2019</div>
+                                <h3 class="ht-title">Global Expansion</h3>
+                                <p class="ht-desc">Opened regional offices in Dubai and Singapore, bringing our playbook to GCC and Southeast Asian enterprises navigating rapid market change.</p>
+                            </div>
+                        </div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right"></div>
+                    </div>
+
+                    <!-- 2021 -->
+                    <div class="ht-item" data-aos="fade-left">
+                        <div class="ht-left"></div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right">
+                            <div class="ht-content">
+                                <div class="ht-year">2021</div>
+                                <h3 class="ht-title">Digital Practice Launch</h3>
+                                <p class="ht-desc">Launched our dedicated Digital Transformation practice, helping over 80 companies migrate to cloud-native infrastructure and AI-driven workflows within two years.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2023 -->
+                    <div class="ht-item" data-aos="fade-right">
+                        <div class="ht-left">
+                            <div class="ht-content">
+                                <div class="ht-year">2023</div>
+                                <h3 class="ht-title">500 Projects Milestone</h3>
+                                <p class="ht-desc">Crossed the 500-project mark across 30+ countries, receiving the Global Advisory Excellence Award for three consecutive years.</p>
+                            </div>
+                        </div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right"></div>
+                    </div>
+
+                    <!-- 2025 -->
+                    <div class="ht-item" data-aos="fade-left">
+                        <div class="ht-left"></div>
+                        <div class="ht-center"><div class="ht-dot"></div></div>
+                        <div class="ht-right">
+                            <div class="ht-content">
+                                <div class="ht-year">2025</div>
+                                <h3 class="ht-title">Decade Strong</h3>
+                                <p class="ht-desc">Celebrating 10 years — with 25+ world-class consultants, a $200M+ client portfolio, and an unwavering commitment to impact over inches.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Team -->
+        <section class="section-padding" style="background:#f9f9f9;">
+            <div class="container">
+                <div class="text-center mb-12" style="max-width:600px; margin:0 auto 60px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up">The Team</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Meet Our Managing Partners</h2>
+                    <p style="color:var(--text-muted); font-size:16px; margin-top:15px;" data-aos="fade-up" data-aos-delay="150">A team of former executives, MBAs, and industry specialists who have navigated every challenge you're facing — and emerged stronger.</p>
+                </div>
+                <div class="about-team-grid">
+                    <div class="about-team-card" data-aos="fade-up" data-aos-delay="0">
+                        <img src="assets/images/about_man.png" alt="Jonathan Hayes">
+                        <div class="atc-overlay">
+                            <div class="atc-name">Jonathan Hayes</div>
+                            <div class="atc-role">Senior Managing Partner</div>
+                        </div>
+                        <div class="atc-static">
+                            <div class="atc-name">Jonathan Hayes</div>
+                            <div class="atc-role" style="font-size:12px; color:var(--primary); text-transform:uppercase; letter-spacing:1px; font-weight:600;">Senior Managing Partner</div>
+                        </div>
+                    </div>
+                    <div class="about-team-card" data-aos="fade-up" data-aos-delay="100">
+                        <img src="assets/images/about_team.png" alt="Dr. Alisha Reynolds">
+                        <div class="atc-overlay">
+                            <div class="atc-name">Dr. Alisha Reynolds</div>
+                            <div class="atc-role">Head of Global Strategy</div>
+                        </div>
+                        <div class="atc-static">
+                            <div class="atc-name">Dr. Alisha Reynolds</div>
+                            <div class="atc-role" style="font-size:12px; color:var(--primary); text-transform:uppercase; letter-spacing:1px; font-weight:600;">Head of Global Strategy</div>
+                        </div>
+                    </div>
+                    <div class="about-team-card" data-aos="fade-up" data-aos-delay="200">
+                        <img src="assets/images/about_man.png" alt="Marcus Vance">
+                        <div class="atc-overlay">
+                            <div class="atc-name">Marcus Vance</div>
+                            <div class="atc-role">VP of Restructuring</div>
+                        </div>
+                        <div class="atc-static">
+                            <div class="atc-name">Marcus Vance</div>
+                            <div class="atc-role" style="font-size:12px; color:var(--primary); text-transform:uppercase; letter-spacing:1px; font-weight:600;">VP of Restructuring</div>
+                        </div>
+                    </div>
+                    <div class="about-team-card" data-aos="fade-up" data-aos-delay="300">
+                        <img src="assets/images/about_team.png" alt="Priya Nair">
+                        <div class="atc-overlay">
+                            <div class="atc-name">Priya Nair</div>
+                            <div class="atc-role">Director of M&amp;A Advisory</div>
+                        </div>
+                        <div class="atc-static">
+                            <div class="atc-name">Priya Nair</div>
+                            <div class="atc-role" style="font-size:12px; color:var(--primary); text-transform:uppercase; letter-spacing:1px; font-weight:600;">Director of M&amp;A Advisory</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Band -->
+        <section style="background:var(--primary); padding:70px 0;">
+            <div class="container">
+                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; text-align:center;" data-aos="fade-up">
+                    <div style="color:var(--white);">
+                        <div style="font-size:clamp(40px,5vw,70px); font-weight:800; font-family:var(--font-heading); line-height:1;">500+</div>
+                        <div style="font-size:14px; text-transform:uppercase; letter-spacing:2px; opacity:0.8; margin-top:8px;">Projects Delivered</div>
+                    </div>
+                    <div style="color:var(--white);">
+                        <div style="font-size:clamp(40px,5vw,70px); font-weight:800; font-family:var(--font-heading); line-height:1;">30+</div>
+                        <div style="font-size:14px; text-transform:uppercase; letter-spacing:2px; opacity:0.8; margin-top:8px;">Countries Served</div>
+                    </div>
+                    <div style="color:var(--white);">
+                        <div style="font-size:clamp(40px,5vw,70px); font-weight:800; font-family:var(--font-heading); line-height:1;">98%</div>
+                        <div style="font-size:14px; text-transform:uppercase; letter-spacing:2px; opacity:0.8; margin-top:8px;">Client Retention</div>
+                    </div>
+                    <div style="color:var(--white);">
+                        <div style="font-size:clamp(40px,5vw,70px); font-weight:800; font-family:var(--font-heading); line-height:1;">25+</div>
+                        <div style="font-size:14px; text-transform:uppercase; letter-spacing:2px; opacity:0.8; margin-top:8px;">Expert Consultants</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section section-padding bg-dark" style="position:relative; overflow:hidden;">
+            <div style="position:absolute; top:-50%; right:-10%; width:50%; height:200%; background:radial-gradient(ellipse at center, rgba(0,196,204,0.15) 0%, transparent 70%); z-index:0;"></div>
+            <div class="container" style="position:relative; z-index:1;" data-aos="zoom-in">
+                <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:40px;">
+                    <div style="max-width:500px;">
+                        <h2 class="text-white" style="font-size:clamp(28px,4vw,42px); margin-bottom:15px;">Ready to Work With<br>the Best?</h2>
+                        <p style="font-size:17px; color:rgba(255,255,255,0.6); line-height:1.8;">Book a free 30-minute discovery session with one of our managing partners. Let's explore exactly how STACKLY can drive your next chapter of growth.</p>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:15px;">
+                        <a href="404.html" class="btn btn-primary btn-icon" style="font-size:16px; padding:18px 40px;">Book a Free Call <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                        <a href="services.html" class="btn" style="border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.8); background:transparent; padding:18px 35px; border-radius:30px; font-size:16px; font-weight:500;">View Services</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer bg-dark border-top-glow">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="logo text-white mb-4">STACKLY</div>
+                    <p class="footer-desc">Global Management Consulting delivering strategic advisory to optimize operations and drive sustainable business growth.</p>
+                    <div class="social-links mt-8">
+                        <a href="404.html" class="social-icon">f</a>
+                        <a href="404.html" class="social-icon">X</a>
+                        <a href="404.html" class="social-icon">in</a>
+                    </div>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="services.html">Corporate Restructuring</a></li>
+                        <li><a href="services.html">Mergers &amp; Acquisitions</a></li>
+                        <li><a href="services.html">Process Optimization</a></li>
+                        <li><a href="services.html">Financial Advisory</a></li>
+                        <li><a href="services.html">Risk Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">Office</h4>
+                    <ul class="footer-links contact-list">
+                        <li>Salem, Tamilnadu, India</li>
+                        <li>Ph: +91 98765 43210</li>
+                        <li>Email: contact@stackly.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2026 STACKLY Consulting. All rights reserved.</div>
+                <div class="legal-links">
+                    <a href="404.html">Privacy Policy</a>
+                    <a href="404.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

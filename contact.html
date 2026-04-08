@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Contact Us | Get in Touch</title>
+    <meta name="description" content="Contact STACKLY's consulting team. Book a free discovery session, reach our managing partners, or visit our office in Salem, India.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Contact Page Specific */
+        .inner-hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+        }
+        .inner-hero::before {
+            content: '';
+            position: absolute;
+            top: -40%; right: -10%;
+            width: 55%; height: 200%;
+            background: radial-gradient(ellipse at center, rgba(0,196,204,0.13) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .inner-hero .container { position: relative; z-index: 2; }
+        .breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 25px; }
+        .breadcrumb a { color: rgba(255,255,255,0.5); transition: var(--transition); }
+        .breadcrumb a:hover { color: var(--primary); }
+        .breadcrumb span { color: var(--primary); }
+
+        /* Contact Info Cards */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 640px) { .contact-cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .contact-cards { grid-template-columns: repeat(4, 1fr); } }
+        .contact-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 35px 30px;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .contact-card:hover { transform: translateY(-6px); box-shadow: 0 20px 45px rgba(0,196,204,0.1); border-color: rgba(0,196,204,0.2); }
+        .contact-card:hover::after { transform: scaleX(1); }
+        .cc-icon {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(0,196,204,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            transition: var(--transition);
+        }
+        .contact-card:hover .cc-icon { background: var(--primary); }
+        .contact-card:hover .cc-icon svg { color: var(--white); }
+        .cc-icon svg { color: var(--primary); transition: var(--transition); }
+        .cc-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+        .cc-value { font-size: 15px; font-weight: 600; color: var(--dark); line-height: 1.6; }
+        .cc-sub { font-size: 13px; color: var(--text-muted); margin-top: 5px; }
+
+        /* Contact Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        @media (min-width: 1024px) { .contact-layout { grid-template-columns: 1fr 420px; } }
+
+        /* Contact Form */
+        .contact-form-wrap {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+        }
+        @media (max-width: 640px) { .contact-form-wrap { padding: 30px 20px; } }
+        .form-row { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label { font-size: 13px; font-weight: 600; color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-input, .form-textarea, .form-select {
+            padding: 14px 18px;
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: 10px;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            color: var(--dark);
+            background: #fafafa;
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(0,196,204,0.1);
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+        .form-textarea { resize: vertical; min-height: 140px; }
+        .form-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+        .form-submit { width: 100%; padding: 16px; background: var(--primary); color: var(--white); border: none; border-radius: 10px; font-family: var(--font-heading); font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .form-submit:hover { background: #00a8af; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,196,204,0.3); }
+        .form-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 15px; }
+
+        /* Sidebar Info */
+        .contact-sidebar { display: flex; flex-direction: column; gap: 25px; }
+        .cs-widget {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 35px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .cs-widget-dark { background: var(--dark); border-color: rgba(255,255,255,0.05); }
+        .cs-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .cs-title-white { color: var(--white); }
+        .cs-item { display: flex; align-items: flex-start; gap: 15px; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .cs-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .cs-item-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,196,204,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .cs-item-icon svg { color: var(--primary); }
+        .cs-item-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .cs-item-value { font-size: 15px; font-weight: 600; color: var(--dark); }
+        .cs-item-dark .cs-item-label { color: rgba(255,255,255,0.4); }
+        .cs-item-dark .cs-item-value { color: var(--white); }
+
+        /* FAQ */
+        .faq-item { 
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--primary);
+        }
+        .faq-question {
+            width: 100%;
+            padding: 22px 30px;
+            background: none;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--white);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition);
+        }
+        .faq-question span {
+            font-size: 22px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 30px;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 25px;
+        }
+        .faq-item.active .faq-question span {
+            transform: rotate(45deg);
+        }
+
+        /* Hours Table */
+        .hours-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 14px; }
+        .hours-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .hours-day { color: var(--text-muted); }
+        .hours-time { font-weight: 600; color: var(--dark); }
+        .hours-time.open { color: #22c55e; }
+        .hours-time.closed { color: #ef4444; }
+
+        /* Map Section */
+        .map-container { border-radius: 20px; overflow: hidden; height: 380px; border: 1px solid rgba(0,0,0,0.08); }
+        .map-container iframe { width: 100%; height: 100%; border: none; filter: grayscale(30%) contrast(1.1); }
+
+        /* Social Links Row */
+        .social-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .social-link-btn { 
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 18px; border-radius: 8px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 500;
+            transition: var(--transition);
+        }
+        .social-link-btn:hover { background: var(--primary); border-color: var(--primary); color: var(--white); }
+    </style>
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">STACKLY</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="contact-info desktop-only">
+                    <span class="label">Need help? Call us</span>
+                    <a href="tel:9876543210" class="phone">+91 9876543210</a>
+                </div>
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <a href="login.html" class="btn btn-primary btn-icon desktop-only">Login<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line><polyline points="10 5 19 5 19 14"></polyline></svg></a>
+                <button class="menu-toggle mobile-only" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="mobile-contact mt-8">
+                <p class="text-white mb-2">Need help? Call us</p>
+                <a href="tel:9876543210" class="phone" style="color:#00c4cc">+91 9876543210</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="inner-hero">
+            <div class="hero-bg" style="background-image: url('assets/images/about_man.png'); filter: brightness(0.18);"></div>
+            <div class="hero-overlay" style="background: linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,10,15,0.6) 100%);"></div>
+            <div class="container">
+                <div class="breadcrumb" data-aos="fade-up">
+                    <a href="index.html">Home</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <span>Contact</span>
+                </div>
+                <div style="max-width: 680px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up" data-aos-delay="50">Let's Connect</span>
+                    <h1 class="text-white" data-aos="fade-up" data-aos-delay="100" style="font-size:clamp(40px,6vw,72px); line-height:1.1;">Start a <span style="color:var(--primary);">Conversation</span><br>With Our Team</h1>
+                    <p style="font-size:17px; color:rgba(255,255,255,0.6); margin-top:20px; line-height:1.9; max-width:540px;" data-aos="fade-up" data-aos-delay="200">Whether you're ready to transform your business or just exploring options — our managing partners are here to listen.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Info Cards -->
+        <section style="background:#f9f9f9; padding: 60px 0;">
+            <div class="container">
+                <div class="contact-cards">
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="cc-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.37h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+                        </div>
+                        <div class="cc-label">Phone</div>
+                        <div class="cc-value">+91 98765 43210</div>
+                        <div class="cc-sub">Mon–Fri, 9am–6pm IST</div>
+                    </div>
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="cc-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <div class="cc-label">Email</div>
+                        <div class="cc-value">contact@stackly.com</div>
+                        <div class="cc-sub">We reply within 24 hours</div>
+                    </div>
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="cc-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="cc-label">Office</div>
+                        <div class="cc-value">Salem, Tamilnadu</div>
+                        <div class="cc-sub">India — 636 001</div>
+                    </div>
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="cc-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="cc-label">Free Consultation</div>
+                        <div class="cc-value">Book a 30-min Call</div>
+                        <div class="cc-sub">No commitment required</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form + Sidebar -->
+        <section class="section-padding" style="background: #f9f9f9;">
+            <div class="container">
+                <div class="contact-layout">
+
+                    <!-- Form -->
+                    <div data-aos="fade-right">
+                        <div style="margin-bottom: 40px;">
+                            <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:20px; font-weight:600;">Send a Message</span>
+                            <h2 class="section-title">Tell Us About<br>Your Project</h2>
+                            <p style="color:var(--text-muted); font-size:16px; margin-top:15px; line-height:1.8;">Fill in the form and one of our senior consultants will reach out within one business day.</p>
+                        </div>
+                        <div class="contact-form-wrap">
+                            <form id="contactForm" novalidate>
+                                <div class="form-row" style="margin-bottom:20px;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="firstName">First Name *</label>
+                                        <input type="text" id="firstName" class="form-input" placeholder="Jonathan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="lastName">Last Name *</label>
+                                        <input type="text" id="lastName" class="form-input" placeholder="Hayes" required>
+                                    </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom:20px;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email Address *</label>
+                                        <input type="email" id="email" class="form-input" placeholder="you@company.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Phone Number</label>
+                                        <input type="tel" id="phone" class="form-input" placeholder="+91 98765 43210">
+                                    </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom:20px;">
+                                    <div class="form-group">
+                                        <label class="form-label" for="company">Company Name</label>
+                                        <input type="text" id="company" class="form-input" placeholder="Acme Corp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="service">Service Interested In</label>
+                                        <select id="service" class="form-select form-input">
+                                            <option value="" disabled selected>Select a service...</option>
+                                            <option>Corporate Restructuring</option>
+                                            <option>Mergers &amp; Acquisitions</option>
+                                            <option>Process Optimization</option>
+                                            <option>Risk Management</option>
+                                            <option>Digital Transformation</option>
+                                            <option>Supply Chain Optimization</option>
+                                            <option>General Inquiry</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label class="form-label" for="budget">Project Budget Range</label>
+                                    <select id="budget" class="form-select form-input">
+                                        <option value="" disabled selected>Select budget range...</option>
+                                        <option>Under $10,000</option>
+                                        <option>$10,000 – $50,000</option>
+                                        <option>$50,000 – $200,000</option>
+                                        <option>$200,000 – $1M</option>
+                                        <option>$1M+</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:30px;">
+                                    <label class="form-label" for="message">Your Message *</label>
+                                    <textarea id="message" class="form-textarea" placeholder="Tell us about your challenge or what you'd like to achieve..." required></textarea>
+                                </div>
+                                <button type="submit" class="form-submit" id="submitBtn">
+                                    Send Message
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                </button>
+                                <p class="form-note">🔒 Your information is private and will never be shared with third parties.</p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <aside class="contact-sidebar" data-aos="fade-left" data-aos-delay="100">
+
+                        <!-- Contact Details -->
+                        <div class="cs-widget">
+                            <h3 class="cs-title">Contact Details</h3>
+                            <div class="cs-item">
+                                <div class="cs-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.37h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></div>
+                                <div>
+                                    <div class="cs-item-label">Direct Line</div>
+                                    <div class="cs-item-value">+91 98765 43210</div>
+                                </div>
+                            </div>
+                            <div class="cs-item">
+                                <div class="cs-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                                <div>
+                                    <div class="cs-item-label">Email Us</div>
+                                    <div class="cs-item-value">contact@stackly.com</div>
+                                </div>
+                            </div>
+                            <div class="cs-item">
+                                <div class="cs-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                                <div>
+                                    <div class="cs-item-label">Headquarters</div>
+                                    <div class="cs-item-value">Salem, Tamilnadu, India</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Office Hours -->
+                        <div class="cs-widget">
+                            <h3 class="cs-title">Office Hours</h3>
+                            <div class="hours-row"><span class="hours-day">Monday</span><span class="hours-time open">9:00 AM – 6:00 PM</span></div>
+                            <div class="hours-row"><span class="hours-day">Tuesday</span><span class="hours-time open">9:00 AM – 6:00 PM</span></div>
+                            <div class="hours-row"><span class="hours-day">Wednesday</span><span class="hours-time open">9:00 AM – 6:00 PM</span></div>
+                            <div class="hours-row"><span class="hours-day">Thursday</span><span class="hours-time open">9:00 AM – 6:00 PM</span></div>
+                            <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time open">9:00 AM – 5:00 PM</span></div>
+                            <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time" style="color:#f68b33;">By Appointment</span></div>
+                            <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time closed">Closed</span></div>
+                        </div>
+
+                        <!-- Social / Dark -->
+                        <div class="cs-widget cs-widget-dark">
+                            <h3 class="cs-title cs-title-white">Follow STACKLY</h3>
+                            <p style="color:rgba(255,255,255,0.5); font-size:14px; margin-bottom:20px; line-height:1.7;">Stay updated with the latest insights, case studies, and business strategies from our team.</p>
+                            <div class="social-row">
+                                <a href="404.html" class="social-link-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                    LinkedIn
+                                </a>
+                                <a href="404.html" class="social-link-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                                    Twitter
+                                </a>
+                                <a href="404.html" class="social-link-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                                    Facebook
+                                </a>
+                            </div>
+                        </div>
+
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section style="background:#f9f9f9; padding: 0 0 80px;">
+            <div class="container">
+                <div class="text-center" style="margin-bottom:40px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(0,196,204,0.1); border-radius:30px; color:var(--primary); font-size:13px; margin-bottom:15px; font-weight:600;" data-aos="fade-up">Visit Us</span>
+                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Find Our Office</h2>
+                </div>
+                <div class="map-container" data-aos="fade-up" data-aos-delay="150">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62721.9609820854!2d78.11380485!3d11.6642543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1e06c5496b9%3A0xf6c47b851c0cda53!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="STACKLY Office Location - Salem, Tamilnadu">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Strip -->
+        <section class="section-padding bg-dark">
+            <div class="container">
+                <div class="text-center mb-12" style="max-width:600px; margin:0 auto 50px;">
+                    <span class="tag" style="display:inline-block; padding:8px 20px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:30px; color:var(--white); font-size:13px; margin-bottom:20px; font-weight:600;" data-aos="fade-up">FAQ</span>
+                    <h2 class="section-title text-white" data-aos="fade-up" data-aos-delay="100">Before You Reach Out</h2>
+                </div>
+                <div class="faq-list" style="max-width:800px; margin:0 auto;">
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+                        <button class="faq-question">How quickly will I get a response? <span>+</span></button>
+                        <div class="faq-answer"><p style="color:rgba(255,255,255,0.6);">All inquiries are responded to within one business day. For urgent matters, call us directly at +91 98765 43210.</p></div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="75">
+                        <button class="faq-question">Is the initial consultation really free? <span>+</span></button>
+                        <div class="faq-answer"><p style="color:rgba(255,255,255,0.6);">Yes — completely. Our 30-minute discovery sessions are no-obligation exploratory conversations to understand your needs before we ever discuss an engagement.</p></div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="150">
+                        <button class="faq-question">Do you work with startups or only enterprises? <span>+</span></button>
+                        <div class="faq-answer"><p style="color:rgba(255,255,255,0.6);">We work with organizations at every stage — from ambitious Series B startups to global Fortune 500 firms. Our Startup plan is specifically designed for early-stage growth.</p></div>
+                    </div>
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="225">
+                        <button class="faq-question">Can I meet the team before signing an agreement? <span>+</span></button>
+                        <div class="faq-answer"><p style="color:rgba(255,255,255,0.6);">Absolutely. We encourage a second-stage call with your dedicated consultant so you can evaluate the chemistry and expertise before any formal agreement is signed.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer bg-dark border-top-glow">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="0">
+                    <div class="logo text-white mb-4">STACKLY</div>
+                    <p class="footer-desc">Global Management Consulting delivering strategic advisory to optimize operations and drive sustainable business growth.</p>
+                    <div class="social-links mt-8">
+                        <a href="404.html" class="social-icon">f</a>
+                        <a href="404.html" class="social-icon">X</a>
+                        <a href="404.html" class="social-icon">in</a>
+                    </div>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="services.html">Corporate Restructuring</a></li>
+                        <li><a href="services.html">Mergers &amp; Acquisitions</a></li>
+                        <li><a href="services.html">Process Optimization</a></li>
+                        <li><a href="services.html">Financial Advisory</a></li>
+                        <li><a href="services.html">Risk Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="footer-title">Office</h4>
+                    <ul class="footer-links contact-list">
+                        <li>Salem, Tamilnadu, India</li>
+                        <li>Ph: +91 98765 43210</li>
+                        <li>Email: contact@stackly.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2026 STACKLY Consulting. All rights reserved.</div>
+                <div class="legal-links">
+                    <a href="404.html">Privacy Policy</a>
+                    <a href="404.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Contact Form Submit Handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Message Sent!`;
+            btn.style.background = '#22c55e';
+            setTimeout(() => {
+                btn.innerHTML = `Send Message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+                btn.style.background = '';
+                this.reset();
+            }, 3000);
+        });
+
+        // FAQ Accordion Toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                
+                // Close other items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) item.classList.remove('active');
+                });
+                
+                // Toggle current item
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

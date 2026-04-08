@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — STACKLY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">  <style>
+  /* Cinematic Premium Preloader */
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .preloader-panel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50.5%;
+    background: #070707;
+    transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+  }
+
+  .panel-top { top: 0; }
+  .panel-bottom { bottom: 0; }
+
+  .preloader-content {
+    position: relative;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .loader-text-reveal {
+    display: flex;
+    overflow: hidden;
+    padding: 10px 0;
+  }
+
+  .loader-text-reveal span {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+    transform: translateY(110%);
+    transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+    transition-delay: calc(var(--index) * 0.05s);
+  }
+
+  .loader-line {
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 1s cubic-bezier(0.8, 0, 0.2, 1);
+    transition-delay: 0.5s;
+    box-shadow: 0 0 15px var(--primary);
+  }
+
+  .preloader.active .loader-text-reveal span { transform: translateY(0); }
+  .preloader.active .loader-line { width: 140px; }
+
+  .preloader-exit .preloader-content { opacity: 0; transform: scale(0.95); }
+  .preloader-exit .panel-top { transform: translateY(-100%); }
+  .preloader-exit .panel-bottom { transform: translateY(100%); }
+
+  :root {
+  --primary:#00c4cc; --primary-dim:rgba(0,196,204,0.15); --primary-glow:rgba(0,196,204,0.35);
+  --accent:#ff6b35; --accent-dim:rgba(255,107,53,0.15);
+  --green:#22c55e; --green-dim:rgba(34,197,94,0.15);
+  --yellow:#eab308; --yellow-dim:rgba(234,179,8,0.15);
+  --red:#ef4444; --red-dim:rgba(239,68,68,0.15);
+  --bg:#070707; --surface:#0f0f0f; --surface2:#161616; --surface3:#1e1e1e;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
+  --text:#fff; --text-2:rgba(255,255,255,0.65); --text-3:rgba(255,255,255,0.35);
+  --nav-h:64px; --radius:14px; --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --font:'Outfit',sans-serif; --mono:'JetBrains Mono',monospace;
+  --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+.navbar{height:var(--nav-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:200}
+.nav-left{display:flex;align-items:center;gap:28px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--primary);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#000}
+.logo-name{font-size:17px;font-weight:800;letter-spacing:2px;color:var(--text)}
+.logo-badge{font-size:9px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary-glow);border-radius:4px;padding:2px 6px;letter-spacing:1px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-link{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--text-2);text-decoration:none;transition:var(--transition);white-space:nowrap}
+.nav-link:hover{background:var(--surface2);color:var(--text)}
+.nav-link.active{background:var(--primary-dim);color:var(--primary)}
+.nav-badge-pill{background:var(--primary);color:#000;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px}
+.nav-sep{width:1px;height:20px;background:var(--border);margin:0 6px;flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:10px}
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:7px 14px;transition:var(--transition)}
+.search-bar:focus-within{border-color:var(--primary)}
+.search-bar input{background:none;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:13px;width:150px}
+.search-bar input::placeholder{color:var(--text-3)}
+.icon-btn{width:36px;height:36px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2);transition:var(--transition);position:relative}
+.icon-btn:hover{color:var(--text);border-color:var(--border2)}
+.notif-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;position:absolute;top:6px;right:6px}
+.profile-chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:5px 12px 5px 5px;cursor:pointer;transition:var(--transition)}
+.profile-chip:hover{border-color:var(--border2)}
+.p-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#008a90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#000}
+.p-name{font-size:13px;font-weight:600}
+.p-role{font-size:10px;color:var(--text-3)}
+.hamburger{display:none;width:36px;height:36px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* MOBILE NAV */
+.mobile-nav{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--surface);z-index:190;padding:20px;overflow-y:auto;flex-direction:column;gap:4px;border-top:1px solid var(--border)}
+.mobile-nav.open{display:flex}
+.mobile-nav .nav-link{padding:12px 16px;font-size:15px}
+
+/* PAGE */
+.page{padding:28px;max-width:1400px;margin:0 auto}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+.page-header h1{font-size:26px;font-weight:700}
+.page-header p{color:var(--text-2);font-size:13px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);border:none;text-decoration:none}
+.btn-primary{background:var(--primary);color:#000}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border2)}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden;cursor:pointer;transition:var(--transition)}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.stat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,var(--card-color,rgba(0,196,204,0.05)) 100%);pointer-events:none}
+.stat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.stat-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px}
+.up{background:var(--green-dim);color:var(--green)}
+.down{background:var(--red-dim);color:var(--red)}
+.stat-value{font-size:30px;font-weight:800;line-height:1;margin-bottom:6px;font-family:var(--mono)}
+.stat-label{font-size:12px;color:var(--text-2);font-weight:500}
+.stat-bar{height:3px;background:var(--border);border-radius:2px;margin-top:16px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.grid-3-1{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:24px}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.card-title{font-size:15px;font-weight:600}
+.card-body{padding:22px}
+
+/* BAR CHART */
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:140px}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
+.bar{width:100%;border-radius:6px 6px 0 0;min-height:4px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;padding:12px 16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:var(--transition)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+tbody td{padding:14px 16px;color:var(--text-2);vertical-align:middle}
+.td-primary{color:var(--text);font-weight:500}
+.avatar-cell{display:flex;align-items:center;gap:10px}
+.av-sm{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.chip-green{background:var(--green-dim);color:var(--green)}
+.chip-yellow{background:var(--yellow-dim);color:var(--yellow)}
+.chip-red{background:var(--red-dim);color:var(--red)}
+.chip-blue{background:var(--primary-dim);color:var(--primary)}
+.chip-orange{background:var(--accent-dim);color:var(--accent)}
+.progress-cell{display:flex;align-items:center;gap:10px}
+.mini-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:2px}
+.mini-val{font-size:11px;font-family:var(--mono);color:var(--text-2)}
+
+/* DONUT */
+.donut-wrap{display:flex;align-items:center;gap:28px;padding:8px 0}
+.donut{width:120px;height:120px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--primary) 0deg 158deg,var(--accent) 158deg 230deg,var(--green) 230deg 295deg,var(--surface3) 295deg 360deg);position:relative}
+.donut::after{content:'';position:absolute;inset:22px;background:var(--surface);border-radius:50%}
+.donut-legend{display:flex;flex-direction:column;gap:10px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.legend-label{color:var(--text-2)}
+.legend-val{margin-left:auto;font-weight:600;font-size:12px;font-family:var(--mono)}
+
+/* QA */
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qa-btn{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.qa-btn:hover{border-color:var(--primary);background:var(--primary-dim)}
+.qa-icon{font-size:22px}
+.qa-label{font-size:12px;font-weight:500;color:var(--text-2)}
+
+/* ACTIVITY */
+.activity-list{display:flex;flex-direction:column}
+.activity-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border-bottom:none}
+.act-dot-wrap{display:flex;flex-direction:column;align-items:center;padding-top:4px}
+.act-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.act-line{width:1px;flex:1;background:var(--border);margin-top:4px;min-height:20px}
+.activity-item:last-child .act-line{display:none}
+.act-info{flex:1}
+.act-title{font-size:13px;font-weight:500;line-height:1.4}
+.act-title span{color:var(--primary)}
+.act-time{font-size:11px;color:var(--text-3);margin-top:3px}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.nav-links{display:none}.hamburger{display:flex}.search-bar{display:none}}
+@media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,1fr)}.grid-3-1{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}}
+@media(max-width:600px){.page{padding:16px}.navbar{padding:0 16px}.page-header{flex-direction:column;align-items:flex-start}.donut-wrap{flex-direction:column}.qa-grid{grid-template-columns:repeat(4,1fr)}.p-name,.p-role{display:none}}
+@media(max-width:400px){.stats-grid{grid-template-columns:1fr}.qa-grid{grid-template-columns:repeat(2,1fr)}}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+</style>
+</head>
+<body>
+<!-- Cinematic Premium Preloader -->
+<div id="preloader" class="preloader">
+  <div class="preloader-panel panel-top"></div>
+  <div class="preloader-panel panel-bottom"></div>
+  <div class="preloader-content">
+    <div class="loader-text-reveal">
+      <span style="--index: 0">S</span>
+      <span style="--index: 1">T</span>
+      <span style="--index: 2">A</span>
+      <span style="--index: 3">C</span>
+      <span style="--index: 4">K</span>
+      <span style="--index: 5">L</span>
+      <span style="--index: 6">Y</span>
+    </div>
+    <div class="loader-line"></div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">S</div>
+      <span class="logo-name">STACKLY</span>
+      <span class="logo-badge">ADMIN</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Go Back</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="search-bar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search..."></div>
+    <div class="icon-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
+    <div class="profile-chip"><div class="p-av" id="adminProfileInitials">A</div><div><div class="p-name" id="adminProfileName">Alex Morgan</div><div class="p-role">Super Admin</div></div></div>
+    <div class="hamburger" onclick="document.getElementById('mobileNav').classList.toggle('open')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" class="nav-link active" onclick="this.closest('.mobile-nav').classList.remove('open')">Dashboard</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Users <span class="nav-badge-pill">248</span></a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Analytics</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Projects <span class="nav-badge-pill">12</span></a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Revenue</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Billing</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Settings</a>
+  <a href="login.html" class="nav-link">Logout</a>
+</div>
+
+<main class="page">
+  <div class="page-header">
+    <div><h1>Admin Dashboard</h1><p>Wednesday, April 8 2026 — Welcome back, <span id="adminWelcomeName">Alex</span></p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-ghost"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</button>
+      <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add User</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" style="--card-color:rgba(0,196,204,0.08)"><div class="stat-head"><div class="stat-icon" style="background:var(--primary-dim);color:var(--primary)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="stat-badge up">↑ 12%</span></div><div class="stat-value">2,481</div><div class="stat-label">Total Users</div><div class="stat-bar"><div class="stat-bar-fill" style="width:74%;background:var(--primary)"></div></div></div>
+    <div class="stat-card" style="--card-color:rgba(34,197,94,0.08)"><div class="stat-head"><div class="stat-icon" style="background:var(--green-dim);color:var(--green)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><span class="stat-badge up">↑ 8%</span></div><div class="stat-value">$94.2k</div><div class="stat-label">Monthly Revenue</div><div class="stat-bar"><div class="stat-bar-fill" style="width:62%;background:var(--green)"></div></div></div>
+    <div class="stat-card" style="--card-color:rgba(255,107,53,0.08)"><div class="stat-head"><div class="stat-icon" style="background:var(--accent-dim);color:var(--accent)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="stat-badge up">↑ 5%</span></div><div class="stat-value">38</div><div class="stat-label">Active Projects</div><div class="stat-bar"><div class="stat-bar-fill" style="width:38%;background:var(--accent)"></div></div></div>
+    <div class="stat-card" style="--card-color:rgba(239,68,68,0.08)"><div class="stat-head"><div class="stat-icon" style="background:var(--red-dim);color:var(--red)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span class="stat-badge down">↓ 3%</span></div><div class="stat-value">14</div><div class="stat-label">Open Tickets</div><div class="stat-bar"><div class="stat-bar-fill" style="width:22%;background:var(--red)"></div></div></div>
+  </div>
+
+  <div class="grid-3-1">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Revenue Overview</span><div style="display:flex;gap:8px"><button class="btn btn-ghost" style="padding:5px 12px;font-size:12px">Weekly</button><button class="btn btn-primary" style="padding:5px 12px;font-size:12px">Monthly</button></div></div>
+      <div class="card-body">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:20px"><span style="font-size:28px;font-weight:800;font-family:var(--mono)">$94,280</span><span class="stat-badge up">↑ 8.2% vs last month</span></div>
+        <div class="bar-chart" id="revenueChart"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px"><span style="font-size:11px;color:var(--text-3)">Jan</span><span style="font-size:11px;color:var(--text-3)">Feb</span><span style="font-size:11px;color:var(--text-3)">Mar</span><span style="font-size:11px;color:var(--text-3)">Apr</span><span style="font-size:11px;color:var(--text-3)">May</span><span style="font-size:11px;color:var(--text-3)">Jun</span><span style="font-size:11px;color:var(--text-3)">Jul</span><span style="font-size:11px;color:var(--text-3)">Aug</span><span style="font-size:11px;color:var(--text-3)">Sep</span><span style="font-size:11px;color:var(--text-3)">Oct</span><span style="font-size:11px;color:var(--text-3)">Nov</span><span style="font-size:11px;color:var(--text-3)">Dec</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Service Mix</span></div>
+      <div class="card-body">
+        <div class="donut-wrap"><div class="donut"></div><div class="donut-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--primary)"></div><span class="legend-label">Strategy</span><span class="legend-val">44%</span></div><div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div><span class="legend-label">Digital</span><span class="legend-val">20%</span></div><div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div><span class="legend-label">Finance</span><span class="legend-val">18%</span></div><div class="legend-item"><div class="legend-dot" style="background:var(--surface3)"></div><span class="legend-label">Other</span><span class="legend-val">18%</span></div></div></div>
+        <div style="margin-top:20px"><div style="font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Quick Actions</div><div class="qa-grid"><div class="qa-btn"><span class="qa-icon">👤</span><span class="qa-label">Add User</span></div><div class="qa-btn"><span class="qa-icon">📊</span><span class="qa-label">Report</span></div><div class="qa-btn"><span class="qa-icon">📧</span><span class="qa-label">Broadcast</span></div><div class="qa-btn"><span class="qa-icon">⚙️</span><span class="qa-label">Settings</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Recent Users</span><a href="#" style="font-size:13px;color:var(--primary);text-decoration:none;font-weight:500">View all →</a></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>User</th><th>Plan</th><th>Progress</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#00c4cc,#008a90);color:#000">JK</div><span class="td-primary">James Kim</span></div></td><td><span class="chip chip-blue">Pro</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:82%;background:var(--primary)"></div></div><span class="mini-val">82%</span></div></td><td><span class="chip chip-green">Active</span></td></tr>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#ff6b35,#c44);color:#fff">SR</div><span class="td-primary">Sara Rowe</span></div></td><td><span class="chip chip-orange">Enterprise</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:65%;background:var(--accent)"></div></div><span class="mini-val">65%</span></div></td><td><span class="chip chip-green">Active</span></td></tr>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff">MP</div><span class="td-primary">Mike Park</span></div></td><td><span class="chip chip-blue">Pro</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:44%;background:var(--green)"></div></div><span class="mini-val">44%</span></div></td><td><span class="chip chip-yellow">Pending</span></td></tr>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">LL</div><span class="td-primary">Lisa Lee</span></div></td><td><span class="chip chip-orange">Enterprise</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:91%;background:#a855f7"></div></div><span class="mini-val">91%</span></div></td><td><span class="chip chip-green">Active</span></td></tr>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000">TC</div><span class="td-primary">Tom Chen</span></div></td><td><span class="chip chip-blue">Pro</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:30%;background:var(--yellow)"></div></div><span class="mini-val">30%</span></div></td><td><span class="chip chip-red">Inactive</span></td></tr>
+            <tr><td><div class="avatar-cell"><div class="av-sm" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff">NA</div><span class="td-primary">Nina Adler</span></div></td><td><span class="chip chip-orange">Enterprise</span></td><td><div class="progress-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:58%;background:#06b6d4"></div></div><span class="mini-val">58%</span></div></td><td><span class="chip chip-green">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Live Activity</span><span style="font-size:11px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:5px"><span style="width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>Live</span></div>
+      <div class="card-body">
+        <div class="activity-list">
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--primary)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title"><span>James Kim</span> upgraded to Enterprise plan</div><div class="act-time">2 minutes ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--green)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title">New project <span>Digital Overhaul</span> submitted</div><div class="act-time">18 minutes ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--yellow)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title">Invoice <span>#INV-0482</span> awaiting approval</div><div class="act-time">1 hour ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--accent)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title"><span>Sara Rowe</span> submitted Q2 report</div><div class="act-time">2 hours ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--primary)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title">3 new users joined via <span>referral</span></div><div class="act-time">4 hours ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--red)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title">Ticket <span>#TKT-091</span> escalated to admin</div><div class="act-time">6 hours ago</div></div></div>
+          <div class="activity-item"><div class="act-dot-wrap"><div class="act-dot" style="background:var(--green)"></div><div class="act-line"></div></div><div class="act-info"><div class="act-title">Server backup completed <span>successfully</span></div><div class="act-time">8 hours ago</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Chart Logic
+  const data=[52,68,47,83,61,75,90,78,86,72,80,94];
+  const chart=document.getElementById('revenueChart');
+  if (chart) {
+    data.forEach((v,i)=>{
+      const w=document.createElement('div');w.className='bar-wrap';
+      const b=document.createElement('div');b.className='bar';
+      b.style.cssText=`height:${v}%;background:${i===11?'var(--primary)':i===10?'rgba(0,196,204,0.5)':'rgba(0,196,204,0.2)'}`;
+      w.appendChild(b);chart.appendChild(w);
+    });
+  }
+
+  // Dynamic Profile Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const userName = localStorage.getItem('stackly_user');
+    if (userName) {
+      // Update Welcome Name
+      const welcomeName = document.getElementById('adminWelcomeName');
+      if (welcomeName) welcomeName.textContent = userName;
+
+      // Update Profile Name
+      const profileName = document.getElementById('adminProfileName');
+      if (profileName) profileName.textContent = userName;
+
+      // Update Initials
+      const profileInitials = document.getElementById('adminProfileInitials');
+      if (profileInitials) {
+        const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        profileInitials.textContent = initials || userName[0].toUpperCase();
+      }
+    }
+
+    // Logout Logic
+    const logoutLinks = document.querySelectorAll('a[href="login.html"]');
+    logoutLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        localStorage.removeItem('stackly_user');
+      });
+    });
+    // Cinematic Preloader Logic
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      setTimeout(() => {
+        preloader.classList.add('active');
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          preloader.classList.add('preloader-exit');
+          setTimeout(() => {
+            preloader.remove();
+          }, 1000);
+        }, 1000);
+      });
+    }
+  });
+</script>
+</body>
+</html>

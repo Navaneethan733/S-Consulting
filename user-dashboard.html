@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard — STACKLY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Cinematic Premium Preloader */
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .preloader-panel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50.5%;
+    background: #070707;
+    transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+  }
+
+  .panel-top { top: 0; }
+  .panel-bottom { bottom: 0; }
+
+  .preloader-content {
+    position: relative;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .loader-text-reveal {
+    display: flex;
+    overflow: hidden;
+    padding: 10px 0;
+  }
+
+  .loader-text-reveal span {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 2px;
+    transform: translateY(110%);
+    transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+    transition-delay: calc(var(--index) * 0.05s);
+  }
+
+  .loader-line {
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 1s cubic-bezier(0.8, 0, 0.2, 1);
+    transition-delay: 0.5s;
+    box-shadow: 0 0 15px var(--primary);
+  }
+
+  .preloader.active .loader-text-reveal span { transform: translateY(0); }
+  .preloader.active .loader-line { width: 140px; }
+
+  .preloader-exit .preloader-content { opacity: 0; transform: scale(0.95); }
+  .preloader-exit .panel-top { transform: translateY(-100%); }
+  .preloader-exit .panel-bottom { transform: translateY(100%); }
+
+  :root {
+  --primary:#00c4cc; --primary-dim:rgba(0,196,204,0.12); --primary-glow:rgba(0,196,204,0.35);
+  --accent:#ff6b35; --accent-dim:rgba(255,107,53,0.15);
+  --green:#22c55e; --green-dim:rgba(34,197,94,0.15);
+  --yellow:#eab308; --yellow-dim:rgba(234,179,8,0.15);
+  --purple:#a855f7; --purple-dim:rgba(168,85,247,0.15);
+  --bg:#070707; --surface:#0f0f0f; --surface2:#161616; --surface3:#1e1e1e;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.14);
+  --text:#fff; --text-2:rgba(255,255,255,0.65); --text-3:rgba(255,255,255,0.35);
+  --nav-h:64px; --radius:14px; --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --font:'Outfit',sans-serif; --mono:'JetBrains Mono',monospace;
+  --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+.navbar{height:var(--nav-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:200}
+.nav-left{display:flex;align-items:center;gap:28px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--primary);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#000}
+.logo-name{font-size:17px;font-weight:800;letter-spacing:2px;color:var(--text)}
+.logo-badge{font-size:9px;background:var(--primary-dim);color:var(--primary);border:1px solid var(--primary-glow);border-radius:4px;padding:2px 6px;letter-spacing:1px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-link{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--text-2);text-decoration:none;transition:var(--transition);white-space:nowrap}
+.nav-link:hover{background:var(--surface2);color:var(--text)}
+.nav-link.active{background:var(--primary-dim);color:var(--primary)}
+.nav-badge-pill{background:var(--primary);color:#000;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px}
+.nav-sep{width:1px;height:20px;background:var(--border);margin:0 6px;flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:10px}
+.icon-btn{width:36px;height:36px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2);transition:var(--transition);position:relative}
+.icon-btn:hover{color:var(--text);border-color:var(--border2)}
+.notif-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;position:absolute;top:6px;right:6px}
+.profile-chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:5px 12px 5px 5px;cursor:pointer;transition:var(--transition)}
+.profile-chip:hover{border-color:var(--border2)}
+.p-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#008a90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#000}
+.p-name{font-size:13px;font-weight:600}
+.p-role{font-size:10px;color:var(--primary)}
+.plan-pill{background:var(--primary-dim);color:var(--primary);border:1px solid rgba(0,196,204,0.2);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;letter-spacing:.5px}
+.hamburger{display:none;width:36px;height:36px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}
+
+/* MOBILE NAV */
+.mobile-nav{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--surface);z-index:190;padding:20px;overflow-y:auto;flex-direction:column;gap:4px;border-top:1px solid var(--border)}
+.mobile-nav.open{display:flex}
+.mobile-nav .nav-link{padding:12px 16px;font-size:15px}
+
+/* PAGE */
+.page{padding:28px;max-width:1400px;margin:0 auto}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);border:none;text-decoration:none}
+.btn-primary{background:var(--primary);color:#000}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border2)}
+
+/* WELCOME */
+.welcome-banner{background:linear-gradient(135deg,rgba(0,196,204,0.12) 0%,rgba(0,196,204,0.04) 60%,transparent 100%);border:1px solid rgba(0,196,204,0.2);border-radius:var(--radius);padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;overflow:hidden}
+.welcome-banner::before{content:'STACKLY';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:120px;font-weight:800;color:rgba(0,196,204,0.04);pointer-events:none;letter-spacing:-4px}
+.welcome-text h2{font-size:22px;font-weight:700;margin-bottom:6px}
+.welcome-text h2 span{color:var(--primary)}
+.welcome-text p{color:var(--text-2);font-size:13px}
+.welcome-action{display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:var(--transition)}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.stat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.stat-value{font-size:26px;font-weight:800;font-family:var(--mono);line-height:1;margin-bottom:4px}
+.stat-label{font-size:12px;color:var(--text-2)}
+.stat-sub{font-size:11px;color:var(--text-3);margin-top:8px}
+.stat-sub span{font-weight:600}
+
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-head h2{font-size:16px;font-weight:600}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;cursor:pointer;transition:var(--transition)}
+.project-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.project-card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.project-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.chip{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.chip-green{background:var(--green-dim);color:var(--green)}
+.chip-yellow{background:var(--yellow-dim);color:var(--yellow)}
+.chip-blue{background:var(--primary-dim);color:var(--primary)}
+.chip-purple{background:var(--purple-dim);color:var(--purple)}
+.chip-orange{background:var(--accent-dim);color:var(--accent)}
+.chip-red{background:rgba(239,68,68,0.15);color:#ef4444}
+.project-title{font-size:15px;font-weight:600;margin-bottom:6px}
+.project-desc{font-size:12px;color:var(--text-3);margin-bottom:16px;line-height:1.5}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.progress-label{font-size:11px;color:var(--text-3)}
+.progress-val{font-size:11px;font-family:var(--mono);font-weight:500}
+.progress-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px}
+.project-meta{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.project-team{display:flex}
+.team-av{width:24px;height:24px;border-radius:50%;border:2px solid var(--surface);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-left:-6px}
+.team-av:first-child{margin-left:0}
+.project-due{font-size:11px;color:var(--text-3)}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:24px}
+.grid-2-equal{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.card-title{font-size:15px;font-weight:600}
+.card-body{padding:22px}
+
+/* MESSAGES */
+.msg-list{display:flex;flex-direction:column;gap:2px}
+.msg-item{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;cursor:pointer;transition:var(--transition)}
+.msg-item:hover{background:var(--surface2)}
+.msg-item.unread{background:rgba(0,196,204,0.05)}
+.msg-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.msg-body{flex:1;min-width:0}
+.msg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.msg-from{font-size:13px;font-weight:600}
+.msg-time{font-size:11px;color:var(--text-3)}
+.msg-preview{font-size:12px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;flex-shrink:0}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column}
+.timeline-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.timeline-item:last-child{border-bottom:none}
+.tl-left{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-line{width:1px;flex:1;background:var(--border);margin-top:4px;min-height:16px}
+.timeline-item:last-child .tl-line{display:none}
+.tl-body{flex:1}
+.tl-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.tl-sub{font-size:11px;color:var(--text-3)}
+
+/* DOCS */
+.doc-list{display:flex;flex-direction:column;gap:8px}
+.doc-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:var(--transition)}
+.doc-item:hover{border-color:var(--border2)}
+.doc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-size{font-size:11px;color:var(--text-3)}
+.doc-action{color:var(--text-3);cursor:pointer;transition:var(--transition)}
+.doc-action:hover{color:var(--primary)}
+
+/* USAGE */
+.usage-item{margin-bottom:18px}
+.usage-item:last-child{margin-bottom:0}
+.usage-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.usage-label{font-size:13px;font-weight:500}
+.usage-val{font-size:12px;font-family:var(--mono);color:var(--text-2)}
+.usage-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.usage-fill{height:100%;border-radius:3px}
+.upgrade-btn{display:block;width:100%;padding:8px;background:var(--primary);color:#000;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:var(--transition);text-align:center;text-decoration:none}
+.upgrade-btn:hover{filter:brightness(1.1)}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.nav-links{display:none}.hamburger{display:flex}}
+@media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,1fr)}.projects-grid{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}.grid-2-equal{grid-template-columns:1fr}}
+@media(max-width:700px){.projects-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.page{padding:16px}.navbar{padding:0 16px}.welcome-banner{flex-direction:column;align-items:flex-start;padding:20px}.welcome-banner::before{display:none}.p-name,.p-role{display:none}}
+@media(max-width:400px){.stats-grid{grid-template-columns:1fr}}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+</style>
+</head>
+<body>
+<!-- Cinematic Premium Preloader -->
+<div id="preloader" class="preloader">
+  <div class="preloader-panel panel-top"></div>
+  <div class="preloader-panel panel-bottom"></div>
+  <div class="preloader-content">
+    <div class="loader-text-reveal">
+      <span style="--index: 0">S</span>
+      <span style="--index: 1">T</span>
+      <span style="--index: 2">A</span>
+      <span style="--index: 3">C</span>
+      <span style="--index: 4">K</span>
+      <span style="--index: 5">L</span>
+      <span style="--index: 6">Y</span>
+    </div>
+    <div class="loader-line"></div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">S</div>
+      <span class="logo-name">STACKLY</span>
+      <span class="logo-badge">User</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Go Back</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="plan-pill">PRO</span>
+    <div class="icon-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
+    <div class="icon-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="notif-dot"></div></div>
+    <div class="profile-chip"><div class="p-av" id="profileInitials">JK</div><div><div class="p-name" id="profileName">James Kim</div><div class="p-role">Pro Member</div></div></div>
+    <div class="hamburger" onclick="document.getElementById('mobileNav').classList.toggle('open')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#" class="nav-link active" onclick="this.closest('.mobile-nav').classList.remove('open')">Dashboard</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">My Projects <span class="nav-badge-pill">3</span></a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Progress</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Messages <span class="nav-badge-pill">2</span></a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Consultations</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Profile</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Billing</a>
+  <a href="#" class="nav-link" onclick="this.closest('.mobile-nav').classList.remove('open')">Settings</a>
+  <a href="login.html" class="nav-link">Logout</a>
+</div>
+
+<main class="page">
+  <!-- WELCOME -->
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <h2>Good morning, <span id="welcomeName">James</span> 👋</h2>
+      <p>You have 2 active projects and a consultation scheduled for Friday.</p>
+    </div>
+    <div class="welcome-action">
+      <button class="btn btn-ghost">View Schedule</button>
+      <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Request</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon" style="background:var(--primary-dim);color:var(--primary)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-value">3</div><div class="stat-label">Active Projects</div><div class="stat-sub"><span style="color:var(--green)">1 completing</span> this week</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:var(--green-dim);color:var(--green)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="stat-value">82%</div><div class="stat-label">Avg Progress</div><div class="stat-sub"><span style="color:var(--green)">↑ 14%</span> from last month</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:var(--purple-dim);color:var(--purple)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="stat-value">8</div><div class="stat-label">Consultations</div><div class="stat-sub">Next: <span style="color:var(--primary)">Apr 11</span></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:var(--accent-dim);color:var(--accent)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="stat-value">14</div><div class="stat-label">Documents</div><div class="stat-sub"><span style="color:var(--accent)">2 new</span> this week</div></div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="sec-head">
+    <h2>My Projects</h2>
+    <a href="#" style="font-size:13px;color:var(--primary);text-decoration:none;font-weight:500">View all →</a>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-card-head"><div class="project-icon" style="background:var(--primary-dim)">📊</div><span class="chip chip-green">On Track</span></div>
+      <div class="project-title">Digital Strategy Overhaul</div>
+      <div class="project-desc">Comprehensive digital transformation roadmap for FY2026</div>
+      <div><div class="progress-head"><span class="progress-label">Progress</span><span class="progress-val" style="color:var(--primary)">87%</span></div><div class="progress-bar"><div class="progress-fill" style="width:87%;background:var(--primary)"></div></div></div>
+      <div class="project-meta"><div class="project-team"><div class="team-av" style="background:linear-gradient(135deg,#00c4cc,#008a90);color:#000">AK</div><div class="team-av" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">MR</div><div class="team-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff">+2</div></div><span class="project-due">Due Apr 18</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-card-head"><div class="project-icon" style="background:var(--accent-dim)">💰</div><span class="chip chip-yellow">In Review</span></div>
+      <div class="project-title">Financial Restructuring</div>
+      <div class="project-desc">Q2 financial model and cost optimization analysis</div>
+      <div><div class="progress-head"><span class="progress-label">Progress</span><span class="progress-val" style="color:var(--accent)">60%</span></div><div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--accent)"></div></div></div>
+      <div class="project-meta"><div class="project-team"><div class="team-av" style="background:linear-gradient(135deg,#ff6b35,#c44);color:#fff">SR</div><div class="team-av" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000">JL</div></div><span class="project-due">Due May 2</span></div>
+    </div>
+    <div class="project-card">
+      <div class="project-card-head"><div class="project-icon" style="background:var(--purple-dim)">🌐</div><span class="chip chip-blue">Planning</span></div>
+      <div class="project-title">Market Expansion</div>
+      <div class="project-desc">Southeast Asia market entry strategy and analysis</div>
+      <div><div class="progress-head"><span class="progress-label">Progress</span><span class="progress-val" style="color:var(--purple)">24%</span></div><div class="progress-bar"><div class="progress-fill" style="width:24%;background:var(--purple)"></div></div></div>
+      <div class="project-meta"><div class="project-team"><div class="team-av" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">PT</div><div class="team-av" style="background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff">NA</div><div class="team-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff">+3</div></div><span class="project-due">Due Jun 15</span></div>
+    </div>
+  </div>
+
+  <!-- MESSAGES + TIMELINE -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Messages</span><span style="font-size:11px;background:var(--primary);color:#000;font-weight:700;padding:2px 8px;border-radius:20px">2 New</span></div>
+      <div class="card-body" style="padding:12px">
+        <div class="msg-list">
+          <div class="msg-item unread"><div class="msg-av" style="background:linear-gradient(135deg,#00c4cc,#008a90);color:#000">AK</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Alex (Consultant)</span><span class="msg-time">10:42 AM</span></div><div class="msg-preview">The strategy deck is ready for review. Please check...</div></div><div class="msg-dot"></div></div>
+          <div class="msg-item unread"><div class="msg-av" style="background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff">MR</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Maria Rodriguez</span><span class="msg-time">Yesterday</span></div><div class="msg-preview">Quick question about the Q2 projections we discussed...</div></div><div class="msg-dot"></div></div>
+          <div class="msg-item"><div class="msg-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff">SR</div><div class="msg-body"><div class="msg-head"><span class="msg-from">STACKLY Support</span><span class="msg-time">Mon</span></div><div class="msg-preview">Your Apr 11 consultation has been confirmed. Join link...</div></div></div>
+          <div class="msg-item"><div class="msg-av" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#000">BI</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Billing Team</span><span class="msg-time">Apr 1</span></div><div class="msg-preview">Invoice #INV-0481 has been paid successfully. Receipt...</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Upcoming Milestones</span></div>
+      <div class="card-body">
+        <div class="timeline">
+          <div class="timeline-item"><div class="tl-left"><div class="tl-dot" style="background:var(--primary)"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Strategy Deck Review</div><div class="tl-sub">Apr 10 · Digital Strategy Overhaul</div></div></div>
+          <div class="timeline-item"><div class="tl-left"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Consultation Call</div><div class="tl-sub">Apr 11 · Alex Kim · 2:00 PM</div></div></div>
+          <div class="timeline-item"><div class="tl-left"><div class="tl-dot" style="background:var(--accent)"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Financial Model Handover</div><div class="tl-sub">Apr 14 · Financial Restructuring</div></div></div>
+          <div class="timeline-item"><div class="tl-left"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Project Completion</div><div class="tl-sub">Apr 18 · Digital Strategy Overhaul</div></div></div>
+          <div class="timeline-item"><div class="tl-left"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Q2 Strategy Report</div><div class="tl-sub">May 2 · Financial Restructuring</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCS + USAGE -->
+  <div class="grid-2-equal">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Recent Documents</span><a href="#" style="font-size:13px;color:var(--primary);text-decoration:none;font-weight:500">All docs →</a></div>
+      <div class="card-body">
+        <div class="doc-list">
+          <div class="doc-item"><div class="doc-icon" style="background:var(--primary-dim)">📄</div><div class="doc-info"><div class="doc-name">Digital_Strategy_v3.pdf</div><div class="doc-size">2.4 MB · Updated 2h ago</div></div><div class="doc-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div></div>
+          <div class="doc-item"><div class="doc-icon" style="background:var(--green-dim)">📊</div><div class="doc-info"><div class="doc-name">Financial_Model_Q2.xlsx</div><div class="doc-size">1.1 MB · Updated yesterday</div></div><div class="doc-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div></div>
+          <div class="doc-item"><div class="doc-icon" style="background:var(--accent-dim)">📑</div><div class="doc-info"><div class="doc-name">SEA_Market_Research.pdf</div><div class="doc-size">3.8 MB · Updated Apr 5</div></div><div class="doc-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div></div>
+          <div class="doc-item"><div class="doc-icon" style="background:var(--purple-dim)">📋</div><div class="doc-info"><div class="doc-name">Consultation_Notes_Apr8.docx</div><div class="doc-size">320 KB · Updated today</div></div><div class="doc-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Plan Usage</span><span class="chip chip-blue">Pro</span></div>
+      <div class="card-body">
+        <div class="usage-item"><div class="usage-head"><span class="usage-label">Projects</span><span class="usage-val">3 / 5</span></div><div class="usage-bar"><div class="usage-fill" style="width:60%;background:var(--primary)"></div></div></div>
+        <div class="usage-item"><div class="usage-head"><span class="usage-label">Storage</span><span class="usage-val">7.6 / 20 GB</span></div><div class="usage-bar"><div class="usage-fill" style="width:38%;background:var(--green)"></div></div></div>
+        <div class="usage-item"><div class="usage-head"><span class="usage-label">Consultations</span><span class="usage-val">8 / 10</span></div><div class="usage-bar"><div class="usage-fill" style="width:80%;background:var(--yellow)"></div></div></div>
+        <div class="usage-item"><div class="usage-head"><span class="usage-label">Team Members</span><span class="usage-val">4 / 5</span></div><div class="usage-bar"><div class="usage-fill" style="width:80%;background:var(--accent)"></div></div></div>
+        <div style="margin-top:20px;padding:16px;background:linear-gradient(135deg,rgba(0,196,204,0.1),rgba(0,196,204,0.03));border:1px solid rgba(0,196,204,0.2);border-radius:10px;text-align:center">
+          <div style="font-size:13px;font-weight:600;margin-bottom:6px">Running low on consultations?</div>
+          <div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Upgrade to Enterprise for unlimited access</div>
+          <a href="#" class="upgrade-btn" style="display:inline-block;width:auto;padding:8px 20px">Upgrade Plan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<script>
+  // Dynamic Profile Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const userName = localStorage.getItem('stackly_user');
+    if (userName) {
+      // Update Welcome Name
+      const welcomeName = document.getElementById('welcomeName');
+      if (welcomeName) welcomeName.textContent = userName;
+
+      // Update Profile Name
+      const profileName = document.getElementById('profileName');
+      if (profileName) profileName.textContent = userName;
+
+      // Update Initials
+      const profileInitials = document.getElementById('profileInitials');
+      if (profileInitials) {
+        const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        profileInitials.textContent = initials || userName[0].toUpperCase();
+      }
+    }
+
+    // Logout Logic
+    const logoutLinks = document.querySelectorAll('a[href="login.html"]');
+    logoutLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        localStorage.removeItem('stackly_user');
+      });
+    });
+    // Cinematic Preloader Logic
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      setTimeout(() => {
+        preloader.classList.add('active');
+      }, 100);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          preloader.classList.add('preloader-exit');
+          setTimeout(() => {
+            preloader.remove();
+          }, 1000);
+        }, 1000);
+      });
+    }
+  });
+</script>
+</body>
+</html>

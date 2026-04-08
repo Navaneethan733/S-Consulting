@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Page Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+        .error-page::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(0,196,204,0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        .error-content { position: relative; z-index: 1; max-width: 600px; }
+        .error-code {
+            font-size: clamp(120px, 20vw, 200px);
+            font-weight: 800;
+            font-family: var(--font-heading);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary), #008a90);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -5px;
+        }
+        .error-title {
+            font-size: clamp(24px, 5vw, 42px);
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .error-text {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+        .error-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .floating-elements span {
+            position: absolute;
+            color: rgba(255,255,255,0.03);
+            font-family: var(--font-heading);
+            font-weight: 800;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+
+    <main class="error-page">
+        <div class="error-content">
+            <div class="error-code" data-aos="zoom-in">404</div>
+            <h1 class="error-title" data-aos="fade-up" data-aos-delay="100">Lost in Strategy?</h1>
+            <p class="error-text" data-aos="fade-up" data-aos-delay="200">
+                The page you're looking for was moved, deleted, or never existed in the first place. 
+                Let's get you back to the right path.
+            </p>
+            <div class="error-actions" data-aos="fade-up" data-aos-delay="300">
+                <a href="index.html" class="btn btn-primary btn-icon">Back to Home <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></a>
+                <a href="services.html" class="btn" style="border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.8); background:transparent; padding:14px 30px; border-radius:30px; font-weight:500;">View Services</a>
+            </div>
+        </div>
+
+        <div class="floating-elements">
+            <span style="top: 10%; left: 15%; font-size: 80px;">?</span>
+            <span style="top: 70%; left: 10%; font-size: 120px; transform: rotate(-15deg);">404</span>
+            <span style="top: 20%; right: 10%; font-size: 100px; transform: rotate(20deg);">ERROR</span>
+            <span style="bottom: 15%; right: 20%; font-size: 60px;">!</span>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>

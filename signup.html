@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - STACKLY Consulting</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animation Lib -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Cinematic Premium Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preloader-panel {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50.5%;
+            background: #070707;
+            transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .panel-top { top: 0; }
+        .panel-bottom { bottom: 0; }
+
+        .preloader-content {
+            position: relative;
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .loader-text-reveal {
+            display: flex;
+            overflow: hidden;
+            padding: 10px 0;
+        }
+
+        .loader-text-reveal span {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 2px;
+            transform: translateY(110%);
+            transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+            transition-delay: calc(var(--index) * 0.05s);
+        }
+
+        .loader-line {
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 1s cubic-bezier(0.8, 0, 0.2, 1);
+            transition-delay: 0.5s;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .preloader.active .loader-text-reveal span { transform: translateY(0); }
+        .preloader.active .loader-line { width: 140px; }
+
+        .preloader-exit .preloader-content { opacity: 0; transform: scale(0.95); }
+        .preloader-exit .panel-top { transform: translateY(-100%); }
+        .preloader-exit .panel-bottom { transform: translateY(100%); }
+
+        :root {
+            --primary: #00c4cc;
+            --primary-glow: rgba(0, 196, 204, 0.4);
+            --dark: #070707;
+            --darker: #000000;
+            --gray-100: #111111;
+            --white: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--dark); 
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Left Side Visual */
+        .auth-visual {
+            flex: 1;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            background: url('assets/images/about_team.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .auth-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(7,7,7,0.95) 0%, rgba(0, 196, 204, 0.15) 100%);
+            z-index: 1;
+        }
+        .auth-visual-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px;
+        }
+        .auth-visual-logo {
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.2) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.1;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .visual-headline {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .visual-headline span { color: var(--primary); }
+
+        /* Floating Particles */
+        .floating-blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 1;
+            animation: float 20s infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translate(-20%, -20%) scale(1); }
+            100% { transform: translate(20%, 20%) scale(1.2); }
+        }
+
+        /* Right Side Form */
+        .auth-form-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--darker);
+            position: relative;
+            padding: 80px 40px;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 50px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .auth-header { margin-bottom: 40px; }
+        .auth-header h2 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .auth-header p { color: var(--text-muted); font-size: 15px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { position: relative; margin-bottom: 25px; }
+        .form-input {
+            width: 100%;
+            padding: 18px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 0 20px rgba(0,196,204,0.15);
+        }
+        .form-label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -10px;
+            left: 12px;
+            font-size: 12px;
+            color: var(--primary);
+            background: var(--darker);
+            padding: 0 8px;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .btn-back {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+        .btn-back:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            color: var(--primary);
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+        /* Multi-column row adjustment */
+        @media (max-width: 580px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+        }
+
+        /* Home Link */
+        .home-link {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .home-link:hover { color: var(--white); }
+
+        @media (max-width: 991px) {
+            .auth-visual { display: none; }
+            .auth-form-side { flex: 1; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cinematic Premium Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-panel panel-top"></div>
+        <div class="preloader-panel panel-bottom"></div>
+        <div class="preloader-content">
+            <div class="loader-text-reveal">
+                <span style="--index: 0">S</span>
+                <span style="--index: 1">T</span>
+                <span style="--index: 2">A</span>
+                <span style="--index: 3">C</span>
+                <span style="--index: 4">K</span>
+                <span style="--index: 5">L</span>
+                <span style="--index: 6">Y</span>
+            </div>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+    
+    <div class="auth-wrapper">
+        <!-- Visual Backdrop Side -->
+        <div class="auth-visual">
+            <div class="floating-blob"></div>
+            <div class="auth-visual-logo">STACKLY</div>
+            <div class="auth-visual-content">
+                <h1 class="visual-headline" data-aos="fade-up">Join the <br><span>Elite Network.</span></h1>
+                <p style="color:rgba(255,255,255,0.4); max-width:300px; margin:0 auto;" data-aos="fade-up" data-aos-delay="100">Partner with global leaders and drive sustainable business growth across the planet.</p>
+            </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="auth-form-side">
+            <a href="index.html" class="home-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Back to Home
+            </a>
+
+            <div class="auth-card" data-aos="fade-left" data-aos-duration="800">
+                <div class="auth-header">
+                    <h2>Sign Up</h2>
+                    <p>Start your transformation journey with STACKLY</p>
+                </div>
+
+                <form id="signupForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="fname" class="form-input" placeholder=" " required>
+                            <label for="fname" class="form-label">First Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="lname" class="form-input" placeholder=" " required>
+                            <label for="lname" class="form-label">Last Name</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email" class="form-input" placeholder=" " required>
+                        <label for="email" class="form-label">Work Email Address</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="company" class="form-input" placeholder=" " required>
+                        <label for="company" class="form-label">Company Name</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" id="password" class="form-input" placeholder=" " required>
+                        <label for="password" class="form-label">Password</label>
+                    </div>
+
+                    <p style="font-size:12px; color:rgba(255,255,255,0.3); margin-bottom:25px; line-height:1.6;">
+                        By creating an account, you agree to our <a href="404.html" style="color:var(--primary); text-decoration:none;">Terms of Service</a> and <a href="404.html" style="color:var(--primary); text-decoration:none;">Privacy Policy</a>.
+                    </p>
+
+                    <button type="submit" class="btn-auth">
+                        Create Account
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                    <a href="javascript:history.back()" class="btn-back">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        Go Back
+                    </a>
+                </form>
+
+                <p class="auth-footer">
+                    Already have an account? <a href="login.html">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true });
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-auth');
+            btn.innerHTML = 'Creating Account...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert('Account created successfully! Redirecting to login...');
+                window.location.href = 'login.html';
+            }, 1500);
+        });
+        // Cinematic Preloader Logic
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            setTimeout(() => {
+                preloader.classList.add('active');
+            }, 100);
+
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.classList.add('preloader-exit');
+                    setTimeout(() => {
+                        preloader.remove();
+                    }, 1000);
+                }, 1000);
+            });
+        }
+    </script>
+</body>
+</html>
